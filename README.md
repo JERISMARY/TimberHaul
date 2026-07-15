@@ -1,214 +1,138 @@
 # TimberHaul 🪵
 
-> **India's Premium Timber E-Commerce Platform** — Built with MERN Stack
+> **India's Premium Timber E-Commerce Platform** — Built with the MERN Stack
 
-A full-stack e-commerce website for selling premium wood products, timber, furniture, plywood, and wooden décor. Features a dark luxury theme with premium wood-inspired aesthetics.
+A full-stack e-commerce application for selling premium wood products, timber, furniture, plywood, and wooden décor. Features a luxury design with custom CSS, scroll-reveal animations, and a comprehensive admin dashboard.
+
+---
+
+## 🚀 Live Demo
+- **Frontend (Netlify):** `[Your Netlify URL here]`
+- **Backend API (Render):** `[Your Render URL here]`
+
+*(Note: API is hosted on a free tier. It may take ~50 seconds to wake up on the first request).*
 
 ---
 
 ## 🛠️ Tech Stack
 
-**Frontend**
+**Frontend (Vanilla MERN)**
 - HTML5, Vanilla CSS, Vanilla JavaScript
-- Custom CSS Design System with glassmorphism, 3D animations
-- IntersectionObserver for scroll-reveal
-- Canvas-based particle system
-- Chart.js (admin dashboard)
+- Custom CSS Design System (Glassmorphism, Dark Mode)
+- IntersectionObserver (Scroll-reveal animations)
+- Chart.js (Admin analytics)
 
-**Backend**
-- Node.js + Express.js
-- MongoDB Atlas (Mongoose)
-- JWT Authentication
-- Multer (file uploads)
-- Stripe + Razorpay (payments)
-- Helmet, Rate Limiting, CORS
-
----
-
-## 📁 Project Structure
-
-```
-timberhaul/
-├── frontend/
-│   ├── index.html              # Home page
-│   ├── products.html           # Products listing
-│   ├── product-detail.html     # Product detail
-│   ├── cart.html               # Shopping cart
-│   ├── checkout.html           # Checkout
-│   ├── login.html              # Sign in
-│   ├── register.html           # Create account
-│   ├── profile.html            # User profile
-│   ├── wishlist.html           # Wishlist
-│   ├── blog.html               # Blog listing
-│   ├── blog-detail.html        # Blog article
-│   ├── admin/
-│   │   ├── index.html          # Admin dashboard
-│   │   ├── products.html       # Product management
-│   │   ├── orders.html         # Order management
-│   │   └── ...
-│   ├── css/
-│   │   ├── global.css          # Design tokens + base
-│   │   ├── animations.css      # Keyframes + 3D effects
-│   │   ├── components.css      # All component styles
-│   │   ├── home.css            # Home page styles
-│   │   ├── products.css        # Products/cart/auth styles
-│   │   └── responsive.css      # Breakpoints
-│   ├── js/
-│   │   ├── api.js              # Backend API client
-│   │   ├── auth.js             # Authentication
-│   │   ├── main.js             # Global behaviors
-│   │   ├── animations.js       # Scroll reveal, particles
-│   │   ├── home.js             # Home page logic
-│   │   ├── products.js         # Products page logic
-│   │   ├── product-detail.js   # Product detail logic
-│   │   └── cart.js             # Cart logic
-│   └── assets/
-│       └── images/             # Generated wood images
-│
-└── backend/
-    ├── server.js               # Express app
-    ├── .env.example            # Environment vars template
-    ├── config/
-    │   └── db.js               # MongoDB connection
-    ├── models/
-    │   ├── User.js
-    │   ├── Product.js
-    │   ├── Order.js
-    │   ├── Category.js
-    │   ├── Review.js
-    │   ├── Cart.js
-    │   ├── Wishlist.js
-    │   ├── Payment.js
-    │   ├── Inventory.js
-    │   ├── Supplier.js
-    │   ├── Blog.js
-    │   └── Message.js
-    ├── routes/
-    │   ├── auth.js
-    │   ├── products.js
-    │   ├── orders.js
-    │   ├── categories.js
-    │   ├── reviews.js
-    │   ├── cart.js
-    │   ├── wishlist.js
-    │   ├── payments.js
-    │   ├── blogs.js
-    │   └── messages.js
-    └── middleware/
-        ├── auth.js
-        └── upload.js
-```
+**Backend (Node.js + Express)**
+- Node.js & Express.js API
+- MongoDB Atlas via Mongoose
+- JSON Web Tokens (JWT) for Authentication
+- Multer & Cloudinary (Image upload)
+- Nodemailer (Order confirmation emails)
+- Helmet, Rate Limiting, CORS configuration
 
 ---
 
-## 🚀 Getting Started
+## 📦 Local Development Setup
 
-### 1. Clone & Install
-
+### 1. Clone & Install Dependencies
 ```bash
+git clone https://github.com/your-username/timberhaul.git
 cd timberhaul/backend
 npm install
 ```
 
-### 2. Configure Environment
-
+### 2. Configure Environment Variables
+Create a `.env` file in the `backend/` directory by copying the example:
 ```bash
 cp .env.example .env
-# Edit .env with your credentials
 ```
+Fill in the necessary credentials in `.env` (MongoDB URI, JWT Secret, Cloudinary keys, Email pass). By default, `DEMO_PAYMENT_MODE=true` is enabled to bypass real payments.
 
-Required environment variables:
-```env
-MONGO_URI=mongodb+srv://...
-JWT_SECRET=your_super_secret_key
-STRIPE_SECRET_KEY=sk_test_...
-RAZORPAY_KEY_ID=rzp_test_...
-RAZORPAY_KEY_SECRET=...
-PORT=5000
-```
-
-### 3. Seed Database (optional)
-
+### 3. Seed Database (Optional)
+To populate sample products and categories:
 ```bash
-node utils/seed.js
+npm run seed
 ```
 
-### 4. Start Backend
-
+### 4. Start the Application
+**Backend:**
 ```bash
 npm run dev
 # Server starts at http://localhost:5000
 ```
 
-### 5. Open Frontend
-
-Simply open `frontend/index.html` in your browser, or use a local server:
-
+**Frontend:**
+Serve the `frontend/` folder. Do not just double-click the HTML file. Use a local server:
 ```bash
-# Using Python
-python -m http.server 3000 --directory frontend
-
-# Using Node.js http-server
 npx http-server frontend -p 3000
+# or with Python: python -m http.server 3000 --directory frontend
 ```
+
+Navigate to `http://localhost:3000`.
 
 ---
 
-## 🎨 Design System
+## 🌍 Production Deployment Guide (Free Tier)
 
-### Color Palette
-- **Walnut**: `#8B5E3C` — Primary brand warm brown
-- **Oak**: `#C8A96E` — Secondary golden caramel  
-- **Teak**: `#D4A843` — Accent golden yellow
-- **Forest**: `#4A7C59` — Eco/sustainability green
+This project is fully configured for free deployment via **Netlify** (frontend) and **Render** (backend).
 
-### Typography
-- **Display**: Playfair Display (headings, hero)
-- **Body**: Poppins (paragraphs, UI)
+### Part 1: Deploy Backend to Render
+Render will host our Express.js API and connect to our MongoDB database.
 
-### CSS Variables
-All design tokens are defined in `:root` in `global.css` and support both dark/light themes via `[data-theme]`.
+1. Create a free account at [Render.com](https://render.com).
+2. Connect your GitHub account and select **"New +" -> "Blueprint"**.
+3. Select your repository. Render will automatically read the `render.yaml` file.
+4. Render will prompt you to enter the environment variables. Paste the same values from your `.env` file:
+   - `MONGO_URI`
+   - `JWT_SECRET`
+   - `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY`, `CLOUDINARY_API_SECRET`
+   - `EMAIL_USER`, `EMAIL_PASS`
+   - `DEMO_PAYMENT_MODE` (Set to `true`)
+   - `CLIENT_URL` (Leave blank for now, we will update this in Part 3)
+5. Click **Apply**. Wait for the build to finish. Note down your backend URL (e.g., `https://timberhaul-backend.onrender.com`).
+
+### Part 2: Deploy Frontend to Netlify
+Netlify will host our static HTML/CSS/JS frontend.
+
+1. **Important:** In your code, open `frontend/js/api.js`. On line 6, replace `https://your-backend-app-name.onrender.com/api` with the actual URL Render gave you in Part 1. Push this change to GitHub.
+2. Create a free account at [Netlify.com](https://netlify.com).
+3. Click **"Add new site" -> "Import an existing project"** from GitHub.
+4. Select your repository. Netlify automatically reads the `netlify.toml` file.
+5. Click **Deploy**. Note down your frontend URL (e.g., `https://timberhaul.netlify.app`).
+
+### Part 3: Finalize CORS Configuration
+We must tell the backend to accept requests from our new Netlify frontend.
+
+1. Go back to your Render Dashboard -> Your Web Service -> **Environment Variables**.
+2. Add or update `CLIENT_URL` to be your Netlify URL (e.g., `https://timberhaul.netlify.app`).
+3. Save changes. Render will quickly restart the server. Your app is now live!
+
+---
+
+## 💳 Payment Processing (Demo Mode vs Live)
+
+By default, the backend is configured with `DEMO_PAYMENT_MODE=true`. 
+- When users select **Credit Card** or **UPI**, the UI will display a **🎮 DEMO** badge.
+- Orders will instantly succeed and be marked as "Paid".
+- No real money is moved, and you don't need real Stripe or Razorpay keys.
+
+**To enable real payments:**
+1. Set `DEMO_PAYMENT_MODE=false` in Render Environment Variables.
+2. Add your `STRIPE_SECRET_KEY` from your [Stripe Dashboard](https://dashboard.stripe.com/apikeys).
+3. Add your `RAZORPAY_KEY_ID` and `RAZORPAY_KEY_SECRET` from your [Razorpay Dashboard](https://dashboard.razorpay.com/app/keys).
 
 ---
 
 ## 🔐 Default Credentials
 
-After seeding:
+After running the seed script, you can log in with:
 - **Admin**: `admin@timberhaul.com` / `Admin@1234`
 - **User**: `user@timberhaul.com` / `User@1234`
 
 ---
 
-## 📱 Pages
-
-| Page | URL | Description |
-|------|-----|-------------|
-| Home | `/index.html` | Hero, categories, products, reviews |
-| Products | `/products.html` | Filter, sort, search products |
-| Product Detail | `/product-detail.html?id=...` | Gallery, specs, reviews |
-| Cart | `/cart.html` | Cart items, coupon, summary |
-| Login | `/login.html` | JWT authentication |
-| Register | `/register.html` | Create account |
-| Admin | `/admin/index.html` | Dashboard, analytics |
-
----
-
-## 🌱 Sustainability
-
-TimberHaul is committed to sustainable sourcing:
-- 🏅 FSC® Certified timber
-- 🌿 PEFC Certified
-- 🌳 10 trees planted per order
-- ♻️ Eco-friendly packaging
-
----
-
 ## 📞 Support
-
 - **Email**: support@timberhaul.com
-- **Phone**: +91 80 4567 8900
 - **Hours**: Mon–Sat, 9AM–7PM IST
-
----
 
 *Built with ❤️ and premium timber by TimberHaul*
