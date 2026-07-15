@@ -8,9 +8,9 @@ A full-stack e-commerce application for selling premium wood products, timber, f
 
 ## 🚀 Live Demo
 - **Frontend (Netlify):** `[Your Netlify URL here]`
-- **Backend API (Render):** `[Your Render URL here]`
+- **Backend API (Koyeb):** `[Your Koyeb URL here]`
 
-*(Note: API is hosted on a free tier. It may take ~50 seconds to wake up on the first request).*
+*(Note: API is hosted on a free tier. It may take some time to wake up on the first request if suspended).*
 
 ---
 
@@ -74,27 +74,31 @@ Navigate to `http://localhost:3000`.
 
 ## 🌍 Production Deployment Guide (Free Tier)
 
-This project is fully configured for free deployment via **Netlify** (frontend) and **Render** (backend).
+This project is fully configured for free deployment via **Netlify** (frontend) and **Koyeb** (backend).
 
-### Part 1: Deploy Backend to Render
-Render will host our Express.js API and connect to our MongoDB database.
+### Part 1: Deploy Backend to Koyeb
+Koyeb will host our Express.js API and connect to our MongoDB database.
 
-1. Create a free account at [Render.com](https://render.com).
-2. Connect your GitHub account and select **"New +" -> "Blueprint"**.
-3. Select your repository. Render will automatically read the `render.yaml` file.
-4. Render will prompt you to enter the environment variables. Paste the same values from your `.env` file:
-   - `MONGO_URI`
-   - `JWT_SECRET`
+1. Create a free account at [Koyeb.com](https://app.koyeb.com/).
+2. Click **Create Service** and select **GitHub**.
+3. Select your repository. 
+4. In the **Builder** section, choose **Buildpack**.
+   - Expand the **Advanced** section.
+   - Set **Work directory** to `backend`.
+5. Under **Environment variables**, add:
+   - `MONGO_URI` (your MongoDB string)
+   - `JWT_SECRET` (your strong secret string)
    - `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY`, `CLOUDINARY_API_SECRET`
    - `EMAIL_USER`, `EMAIL_PASS`
    - `DEMO_PAYMENT_MODE` (Set to `true`)
    - `CLIENT_URL` (Leave blank for now, we will update this in Part 3)
-5. Click **Apply**. Wait for the build to finish. Note down your backend URL (e.g., `https://timberhaul-backend.onrender.com`).
+6. Choose the **Free/Eco** instance size. Name your service (e.g., `timberhaul-api`) and click **Deploy**.
+7. Note down your backend URL (e.g., `https://your-app-name.koyeb.app`).
 
 ### Part 2: Deploy Frontend to Netlify
 Netlify will host our static HTML/CSS/JS frontend.
 
-1. **Important:** In your code, open `frontend/js/api.js`. On line 6, replace `https://your-backend-app-name.onrender.com/api` with the actual URL Render gave you in Part 1. Push this change to GitHub.
+1. **Important:** In your code, open `frontend/js/api.js`. On line 7, replace `https://your-app-name.koyeb.app/api` with the actual URL Koyeb gave you in Part 1. Push this change to GitHub.
 2. Create a free account at [Netlify.com](https://netlify.com).
 3. Click **"Add new site" -> "Import an existing project"** from GitHub.
 4. Select your repository. Netlify automatically reads the `netlify.toml` file.
@@ -103,9 +107,9 @@ Netlify will host our static HTML/CSS/JS frontend.
 ### Part 3: Finalize CORS Configuration
 We must tell the backend to accept requests from our new Netlify frontend.
 
-1. Go back to your Render Dashboard -> Your Web Service -> **Environment Variables**.
-2. Add or update `CLIENT_URL` to be your Netlify URL (e.g., `https://timberhaul.netlify.app`).
-3. Save changes. Render will quickly restart the server. Your app is now live!
+1. Go back to your Koyeb Dashboard -> Your Service -> **Settings**.
+2. Add or update the `CLIENT_URL` environment variable to be your Netlify URL (e.g., `https://timberhaul.netlify.app`).
+3. Save changes and redeploy if prompted. Your app is now live!
 
 ---
 
@@ -117,7 +121,7 @@ By default, the backend is configured with `DEMO_PAYMENT_MODE=true`.
 - No real money is moved, and you don't need real Stripe or Razorpay keys.
 
 **To enable real payments:**
-1. Set `DEMO_PAYMENT_MODE=false` in Render Environment Variables.
+1. Set `DEMO_PAYMENT_MODE=false` in Koyeb Environment Variables.
 2. Add your `STRIPE_SECRET_KEY` from your [Stripe Dashboard](https://dashboard.stripe.com/apikeys).
 3. Add your `RAZORPAY_KEY_ID` and `RAZORPAY_KEY_SECRET` from your [Razorpay Dashboard](https://dashboard.razorpay.com/app/keys).
 

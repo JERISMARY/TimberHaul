@@ -5,7 +5,7 @@
 
 const API_BASE = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
   ? 'http://localhost:5000/api'
-  : 'https://your-backend-app-name.onrender.com/api'; // Replace this with your actual Render URL later
+  : 'https://your-app-name.koyeb.app/api'; // Replace this with your actual Koyeb URL later
 
 class ApiClient {
   constructor() {
