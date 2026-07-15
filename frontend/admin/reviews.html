@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Reviews — TimberHaul</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="../css/global.css">
+  <link rel="stylesheet" href="../css/animations.css">
+  <link rel="stylesheet" href="../css/products.css">
+</head>
+<body data-sidebar="true">
+  <div class="admin-layout">
+    <main class="admin-main">
+      <div class="admin-topbar">
+        <h1 class="admin-page-title">Reviews Management</h1>
+      </div>
+      <div class="admin-table-wrap">
+        <table class="admin-table">
+          <thead><tr><th>Product</th><th>User</th><th>Rating</th><th>Comment</th><th>Status</th><th>Actions</th></tr></thead>
+          <tbody id="rev-list"><tr><td colspan="6" style="text-align:center">Loading...</td></tr></tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+  <script src="../js/api.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="js/layout.js"></script>
+  <script src="../js/main.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      AdminLayout.init('nav-reviews');
+      try {
+        const res = await window.api.getAdminReviews();
+        const reviews = res.data || [];
+        document.getElementById('rev-list').innerHTML = reviews.map(r => `
+          <tr>
+            <td style="font-weight:600">${r.product ? r.product.name : 'Unknown'}</td>
+            <td>${r.user ? r.user.name : 'Guest'}</td>
+            <td style="color:var(--c-teak)">${'★'.repeat(r.rating)}${'☆'.repeat(5-r.rating)}</td>
+            <td style="max-width:200px;text-overflow:ellipsis;overflow:hidden;white-space:nowrap">${r.comment}</td>
+            <td><span class="badge ${r.isApproved ? 'badge-success' : 'badge-warning'}">${r.isApproved ? 'Approved' : 'Pending'}</span></td>
+            <td>
+              <button class="btn btn-ghost btn-sm" onclick="alert('Toggle Approval')">${r.isApproved ? 'Reject' : 'Approve'}</button>
+            </td>
+          </tr>
+        `).join('');
+      } catch (err) {
+        document.getElementById('rev-list').innerHTML = `<tr><td colspan="6">Error: ${err.message}</td></tr>`;
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title id="bd-title-tag">Blog — TimberHaul</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/components.css">
+  <style>
+    body{opacity:0} body.loaded{opacity:1;transition:opacity 0.4s}
+    .blog-detail-header { padding: calc(var(--nav-h) + 3rem) 0 3rem; text-align: center; max-width: 800px; margin: 0 auto; }
+    .blog-detail-cover { width: 100%; height: 500px; border-radius: var(--radius-xl); object-fit: cover; margin-bottom: 3rem; }
+    .blog-detail-content { max-width: 720px; margin: 0 auto 5rem; font-size: 1.1rem; line-height: 1.9; color: var(--text-secondary); }
+    .blog-detail-content h2, .blog-detail-content h3 { font-family: var(--font-display); color: var(--text-primary); margin: 2rem 0 1rem; }
+    .blog-detail-content p { margin-bottom: 1.5rem; }
+    .blog-detail-content blockquote { border-left: 4px solid var(--c-teak); padding-left: 1.5rem; margin: 2rem 0; font-style: italic; color: var(--text-primary); font-size: 1.25rem; font-family: var(--font-display); }
+  </style>
+</head>
+<body>
+  <div class="cursor-dot" id="cursor-dot"></div>
+  <div class="cursor-ring" id="cursor-ring"></div>
+
+  <nav id="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">
+        <div class="nav-logo-icon">🪵</div>
+        <span class="nav-logo-text">Timber<span>Haul</span></span>
+      </a>
+      <div class="nav-links">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="products.html" class="nav-link">Products</a>
+        <a href="blog.html" class="nav-link active">Blog</a>
+      </div>
+      <div class="nav-actions">
+        <button class="theme-toggle" id="theme-toggle"><div class="theme-toggle-thumb">🌙</div></button>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+    <div class="container">
+      <div class="breadcrumb" style="margin-top:calc(var(--nav-h) + 2rem)">
+        <a href="index.html">Home</a><span class="sep">/</span>
+        <a href="blog.html">Blog</a><span class="sep">/</span>
+        <span class="current" id="bd-crumb">Article</span>
+      </div>
+
+      <header class="blog-detail-header" data-reveal="fade-up">
+        <span class="badge badge-gold" id="bd-category" style="margin-bottom:1rem">Category</span>
+        <h1 style="font-family:var(--font-display);font-size:var(--fs-4xl);font-weight:800;color:var(--text-primary);line-height:1.2;margin-bottom:1.5rem" id="bd-title">Loading...</h1>
+        <div style="display:flex;align-items:center;justify-content:center;gap:1rem;color:var(--text-muted);font-size:var(--fs-sm)">
+          <span id="bd-date"></span> &bull; <span id="bd-read"></span> read
+        </div>
+      </header>
+
+      <img src="" alt="" class="blog-detail-cover" id="bd-cover" data-reveal="fade-up" data-delay="100">
+
+      <div class="blog-detail-content" id="bd-content" data-reveal="fade-up" data-delay="200"></div>
+    </div>
+  </main>
+
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/blog.js"></script>
+</body>
+</html>

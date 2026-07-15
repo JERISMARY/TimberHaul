@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout — TimberHaul</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/products.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <style>
+    body { opacity: 0; }
+    body.loaded { opacity: 1; transition: opacity 0.4s; }
+
+    .checkout-page { padding-top: calc(var(--nav-h) + var(--space-2xl)); padding-bottom: var(--space-4xl); min-height: 100vh; }
+    .checkout-layout { display: grid; grid-template-columns: 1fr 400px; gap: 3rem; align-items: start; }
+    
+    .checkout-step { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: var(--radius-xl); padding: 2rem; margin-bottom: 2rem; backdrop-filter: blur(16px); }
+    .step-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; }
+    .step-number { width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, var(--c-walnut), var(--c-teak)); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1.1rem; }
+    .step-title { font-family: var(--font-display); font-size: var(--fs-xl); font-weight: 700; color: var(--text-primary); }
+
+    .payment-methods { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem; }
+    .payment-method-card { border: 1px solid var(--border-subtle); background: var(--bg-surface-2); border-radius: var(--radius-md); padding: 1rem; display: flex; align-items: center; gap: 1rem; cursor: pointer; transition: all 0.25s; }
+    .payment-method-card:hover { border-color: var(--c-oak); }
+    .payment-method-card input { accent-color: var(--c-teak); width: 18px; height: 18px; }
+
+    @media (max-width: 992px) {
+      .checkout-layout { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="cursor-dot" id="cursor-dot"></div>
+  <div class="cursor-ring" id="cursor-ring"></div>
+
+  <nav id="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">
+        <div class="nav-logo-icon">🪵</div>
+        <span class="nav-logo-text">Timber<span>Haul</span></span>
+      </a>
+      <div style="flex:1;text-align:center">
+        <h2 style="font-family:var(--font-display);font-size:var(--fs-xl);color:var(--text-primary);margin:0">Secure Checkout</h2>
+      </div>
+      <div><a href="cart.html" class="btn btn-outline btn-sm">Return to Cart</a></div>
+    </div>
+  </nav>
+
+  <main class="checkout-page">
+    <div class="container">
+      <div class="checkout-layout">
+        <!-- Left Column: Forms -->
+        <div>
+          <!-- Step 1: Contact -->
+          <div class="checkout-step" id="step-1">
+            <div class="step-header">
+              <div class="step-number">1</div>
+              <h2 class="step-title">Contact Information</h2>
+            </div>
+            <form id="checkout-contact">
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.25rem">
+                <div class="form-group">
+                  <label class="form-label" for="c-fname">First Name</label>
+                  <input type="text" id="c-fname" class="form-input" required>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="c-lname">Last Name</label>
+                  <input type="text" id="c-lname" class="form-input" required>
+                </div>
+              </div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.25rem">
+                <div class="form-group">
+                  <label class="form-label" for="c-email">Email Address</label>
+                  <input type="email" id="c-email" class="form-input" required>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="c-phone">Phone Number</label>
+                  <input type="tel" id="c-phone" class="form-input" required>
+                </div>
+              </div>
+            </form>
+          </div>
+
+          <!-- Step 2: Shipping -->
+          <div class="checkout-step" id="step-2">
+            <div class="step-header">
+              <div class="step-number">2</div>
+              <h2 class="step-title">Shipping Address</h2>
+            </div>
+            <form id="checkout-shipping">
+              <div class="form-group">
+                <label class="form-label" for="s-address">Street Address</label>
+                <input type="text" id="s-address" class="form-input" required placeholder="House/Flat No., Building Name, Street">
+              </div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.25rem">
+                <div class="form-group">
+                  <label class="form-label" for="s-city">City</label>
+                  <input type="text" id="s-city" class="form-input" required>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="s-state">State / Province</label>
+                  <select id="s-state" class="form-input form-select" required>
+                    <option value="">Select State</option>
+                    <option value="MH">Maharashtra</option>
+                    <option value="DL">Delhi</option>
+                    <option value="KA">Karnataka</option>
+                    <option value="TN">Tamil Nadu</option>
+                    <option value="KL">Kerala</option>
+                    <option value="TS">Telangana</option>
+                    <option value="GJ">Gujarat</option>
+                  </select>
+                </div>
+              </div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.25rem">
+                <div class="form-group">
+                  <label class="form-label" for="s-zip">PIN / ZIP Code</label>
+                  <input type="text" id="s-zip" class="form-input" required>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="s-country">Country</label>
+                  <input type="text" id="s-country" class="form-input" value="India" disabled style="opacity:0.7">
+                </div>
+              </div>
+            </form>
+          </div>
+
+          <!-- Step 3: Payment -->
+          <div class="checkout-step" id="step-3">
+            <div class="step-header">
+              <div class="step-number">3</div>
+              <h2 class="step-title">Payment Method</h2>
+            </div>
+            <!-- Demo mode banner -->
+            <div style="display:flex;align-items:center;gap:0.5rem;background:rgba(212,168,67,0.1);border:1px solid rgba(212,168,67,0.3);border-radius:var(--radius-md);padding:0.6rem 1rem;margin-bottom:1rem;font-size:var(--fs-xs);color:var(--c-teak)">
+              <i class="fa-solid fa-gamepad"></i>
+              <span><strong>Demo Mode:</strong> Online payments are simulated — no real charges will be made.</span>
+            </div>
+            <div class="payment-methods">
+              <label class="payment-method-card">
+                <input type="radio" name="paymentMethod" value="stripe" checked>
+                <div>
+                  <div style="font-weight:600;color:var(--text-primary)">Credit / Debit Card
+                    <span style="font-size:0.6rem;background:rgba(212,168,67,0.2);color:var(--c-teak);border-radius:4px;padding:1px 5px;margin-left:4px;vertical-align:middle">🎮 DEMO</span>
+                  </div>
+                  <div style="font-size:var(--fs-xs);color:var(--text-muted)">Simulated — no real charge</div>
+                </div>
+                <div style="margin-left:auto;font-size:1.5rem;color:var(--c-teak)"><i class="fa-brands fa-stripe"></i></div>
+              </label>
+              <label class="payment-method-card">
+                <input type="radio" name="paymentMethod" value="razorpay">
+                <div>
+                  <div style="font-weight:600;color:var(--text-primary)">UPI / NetBanking
+                    <span style="font-size:0.6rem;background:rgba(212,168,67,0.2);color:var(--c-teak);border-radius:4px;padding:1px 5px;margin-left:4px;vertical-align:middle">🎮 DEMO</span>
+                  </div>
+                  <div style="font-size:var(--fs-xs);color:var(--text-muted)">Simulated — no real charge</div>
+                </div>
+                <div style="margin-left:auto;font-size:1.5rem;color:#0B58C6"><i class="fa-solid fa-building-columns"></i></div>
+              </label>
+              <label class="payment-method-card">
+                <input type="radio" name="paymentMethod" value="cod">
+                <div>
+                  <div style="font-weight:600;color:var(--text-primary)">Cash on Delivery</div>
+                  <div style="font-size:var(--fs-xs);color:var(--text-muted)">Pay when you receive</div>
+                </div>
+                <div style="margin-left:auto;font-size:1.5rem;color:#4CAF79"><i class="fa-solid fa-money-bill-wave"></i></div>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column: Order Summary -->
+        <div>
+          <div class="cart-summary" style="position:sticky;top:calc(var(--nav-h) + 1rem)">
+            <h2 class="cart-summary-title">Order Summary</h2>
+            
+            <div id="checkout-items" style="display:flex;flex-direction:column;gap:1rem;margin-bottom:1.5rem;max-height:300px;overflow-y:auto;padding-right:0.5rem"></div>
+
+            <div style="display: flex; gap: 0.5rem; margin-bottom: 1.5rem;">
+              <input type="text" id="coupon-code" class="form-input" placeholder="Coupon Code" style="flex:1">
+              <button class="btn btn-outline" data-action="applyCoupon" id="btn-apply-coupon">Apply</button>
+            </div>
+            <div id="coupon-message" style="font-size:var(--fs-xs); margin-top:-1rem; margin-bottom:1rem;"></div>
+
+            <div id="loyalty-container" style="display:none; margin-bottom: 1.5rem; background: var(--bg-surface-2); padding: 1rem; border-radius: var(--radius-md);">
+              <label style="display:flex; align-items:center; gap: 0.5rem; cursor:pointer;">
+                <input type="checkbox" id="use-loyalty-pts" data-onchange="renderCheckoutSummary">
+                <span style="font-size:var(--fs-sm); font-weight:500;">Use <span id="co-loyalty-pts-avail" style="color:var(--c-gold); font-weight:700;">0</span> Loyalty Points (₹<span id="co-loyalty-val">0</span>)</span>
+              </label>
+            </div>
+
+            <div class="cart-summary-row">
+              <span>Subtotal</span>
+              <span id="co-subtotal">₹0</span>
+            </div>
+            <div class="cart-summary-row" id="co-discount-row" style="display:none;color:#4CAF79">
+              <span>Discount</span>
+              <span id="co-discount">-₹0</span>
+            </div>
+            <div class="cart-summary-row">
+              <span>Shipping</span>
+              <span id="co-shipping">₹0</span>
+            </div>
+            <div class="cart-summary-row">
+              <span>Tax (18% GST)</span>
+              <span id="co-tax">₹0</span>
+            </div>
+            <div class="cart-summary-row total">
+              <span>Total to Pay</span>
+              <span id="co-total">₹0</span>
+            </div>
+
+            <button class="btn btn-primary btn-lg w-full ripple-container" style="margin-top:2rem" id="place-order-btn" data-action="placeOrder">
+              <i class="fa-solid fa-lock"></i> Place Order
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Razorpay Script -->
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+  <div id="toast-container"></div>
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/checkout.js"></script>
+</body>
+</html>

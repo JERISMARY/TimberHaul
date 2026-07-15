@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign In — TimberHaul</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/products.css">
+  <style>body{opacity:0} body.loaded{opacity:1;transition:opacity 0.4s}</style>
+</head>
+<body>
+  <div class="cursor-dot" id="cursor-dot"></div>
+  <div class="cursor-ring" id="cursor-ring"></div>
+
+  <div class="auth-page">
+    <!-- Visual Side -->
+    <div class="auth-visual">
+      <img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=800&q=80" alt="Premium timber" class="auth-visual-img">
+      <div class="auth-visual-content">
+        <a href="index.html" class="auth-visual-logo">
+          <div class="nav-logo-icon" style="width:56px;height:56px;font-size:1.6rem">🪵</div>
+          <span class="nav-logo-text" style="font-size:2rem">Timber<span>Haul</span></span>
+        </a>
+        <h2 style="font-family:var(--font-display);font-size:var(--fs-4xl);font-weight:800;color:#fff;line-height:1.2;margin-bottom:1rem">
+          Premium Timber<br><em style="color:var(--c-teak)">for Every Project</em>
+        </h2>
+        <p style="color:rgba(255,255,255,0.65);font-size:var(--fs-lg);max-width:400px;line-height:1.6">
+          Quality wood, sustainable sourcing, nationwide delivery. Join 25,000+ happy customers.
+        </p>
+        <div style="display:flex;gap:2rem;margin-top:2rem">
+          <div style="text-align:center">
+            <div style="font-size:var(--fs-3xl);font-weight:800;color:var(--c-teak);font-family:var(--font-display)">5K+</div>
+            <div style="font-size:var(--fs-xs);color:rgba(255,255,255,0.6)">Products</div>
+          </div>
+          <div style="text-align:center">
+            <div style="font-size:var(--fs-3xl);font-weight:800;color:var(--c-teak);font-family:var(--font-display)">4.9★</div>
+            <div style="font-size:var(--fs-xs);color:rgba(255,255,255,0.6)">Rating</div>
+          </div>
+          <div style="text-align:center">
+            <div style="font-size:var(--fs-3xl);font-weight:800;color:var(--c-teak);font-family:var(--font-display)">18yr</div>
+            <div style="font-size:var(--fs-xs);color:rgba(255,255,255,0.6)">Experience</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Form Side -->
+    <div class="auth-panel">
+      <div class="auth-form-wrap">
+        <div style="margin-bottom:2rem">
+          <h1 class="auth-title">Welcome back 👋</h1>
+          <p class="auth-subtitle">Sign in to your TimberHaul account to continue</p>
+        </div>
+
+        <!-- Social Login -->
+        <div class="auth-social">
+          <button class="auth-social-btn" data-action="showToast" data-args='["Google login coming soon!","info"]'>
+            <img src="https://www.svgrepo.com/show/475656/google-color.svg" width="18" alt="Google"> Google
+          </button>
+          <button class="auth-social-btn" data-action="showToast" data-args='["Facebook login coming soon!","info"]'>
+            <i class="fa-brands fa-facebook" style="color:#1877F2"></i> Facebook
+          </button>
+        </div>
+
+        <div class="auth-divider"><span>or sign in with email</span></div>
+
+        <!-- Login Form -->
+        <form class="auth-form" id="login-form">
+          <div class="form-group">
+            <label class="form-label" for="login-email">Email Address</label>
+            <div class="form-input-wrap">
+              <i class="fa-regular fa-envelope form-icon"></i>
+              <input type="email" id="login-email" class="form-input form-input-icon" placeholder="you@example.com" required autocomplete="email">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="login-password" style="display:flex;justify-content:space-between">
+              Password
+              <a href="forgot-password.html" style="color:var(--c-oak);font-weight:600;font-size:var(--fs-xs)">Forgot password?</a>
+            </label>
+            <div class="form-input-wrap">
+              <i class="fa-solid fa-lock form-icon"></i>
+              <input type="password" id="login-password" class="form-input form-input-icon" placeholder="••••••••" required autocomplete="current-password">
+              <button type="button" class="form-eye-btn" data-action="togglePwd" data-args='["login-password", "this"]' aria-label="Toggle password visibility">
+                <i class="fa-regular fa-eye"></i>
+              </button>
+            </div>
+          </div>
+
+          <div style="display:flex;align-items:center;gap:0.5rem">
+            <input type="checkbox" id="remember-me" style="accent-color:var(--c-teak)">
+            <label for="remember-me" style="font-size:var(--fs-sm);color:var(--text-muted)">Remember me for 30 days</label>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-lg w-full ripple-container" id="login-btn">
+            Sign In
+          </button>
+
+          <!-- Demo credentials -->
+          <div style="background:rgba(212,168,67,0.08);border:1px solid rgba(212,168,67,0.2);border-radius:var(--radius-md);padding:0.875rem;font-size:var(--fs-xs);color:var(--text-muted)">
+            <strong style="color:var(--c-oak)">Demo Credentials:</strong><br>
+            Admin: <code style="color:var(--c-teak)">jerismary@gmail.com</code> / <code style="color:var(--c-teak)">Jeris@123</code><br>
+            User: <code style="color:var(--c-teak)">user@timberhaul.com</code> / <code style="color:var(--c-teak)">User@1234</code>
+          </div>
+        </form>
+
+        <p class="auth-switch" style="margin-top:1.5rem">
+          Don't have an account? <a href="register.html">Create one for free →</a>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast-container"></div>
+
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/login.js"></script>
+</body>
+</html>

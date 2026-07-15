@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shopping Cart — TimberHaul</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/products.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <style>body{opacity:0} body.loaded{opacity:1;transition:opacity 0.4s}</style>
+</head>
+<body>
+  <div class="cursor-dot" id="cursor-dot"></div>
+  <div class="cursor-ring" id="cursor-ring"></div>
+
+  <nav id="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">
+        <div class="nav-logo-icon">🪵</div>
+        <span class="nav-logo-text">Timber<span>Haul</span></span>
+      </a>
+      <div class="nav-links">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="products.html" class="nav-link">Products</a>
+        <a href="blog.html" class="nav-link">Blog</a>
+        <a href="index.html#contact" class="nav-link">Contact</a>
+      </div>
+      <div class="nav-actions">
+        <button class="nav-action-btn" id="search-toggle"><i class="fa-solid fa-magnifying-glass"></i></button>
+        <button class="nav-action-btn" data-action="navigate" data-args='["wishlist.html"]'><i class="fa-regular fa-heart"></i></button>
+        <button class="nav-action-btn" data-action="navigate" data-args='["cart.html"]' style="color:var(--c-teak)"><i class="fa-solid fa-bag-shopping"></i><span class="badge-dot" id="cart-count">0</span></button>
+        <button class="nav-action-btn" id="profile-nav-btn" data-action="navigate" data-args='["profile.html"]'><i class="fa-regular fa-circle-user"></i></button>
+        <button class="theme-toggle" id="theme-toggle"><div class="theme-toggle-thumb">🌙</div></button>
+        <button class="nav-hamburger" id="nav-hamburger"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="nav-mobile" id="nav-mobile">
+    <div class="nav-mobile-links">
+      <a href="index.html" class="nav-mobile-link">Home</a>
+      <a href="products.html" class="nav-mobile-link">Products</a>
+      <a href="profile.html" class="nav-mobile-link">Profile</a>
+    </div>
+  </div>
+
+  <div class="search-bar-overlay" id="search-overlay">
+    <div class="search-bar-box">
+      <div class="search-input-wrap">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input type="text" id="search-input" class="search-input-field" placeholder="Search products...">
+        <button class="btn btn-sm btn-ghost" id="search-close">ESC</button>
+      </div>
+      <div id="search-suggestions"></div>
+      <div id="search-results" style="display:none"></div>
+    </div>
+  </div>
+
+  <main class="cart-page">
+    <div class="container">
+      <div class="breadcrumb" style="margin-bottom:1.5rem">
+        <a href="index.html">Home</a><span class="sep">/</span>
+        <a href="products.html">Products</a><span class="sep">/</span>
+        <span class="current">Cart</span>
+      </div>
+
+      <h1 style="font-family:var(--font-display);font-size:var(--fs-4xl);font-weight:800;background:linear-gradient(135deg,var(--text-primary),var(--c-oak));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:2rem" data-reveal="fade-up">
+        Shopping Cart <span id="cart-item-badge" style="font-size:var(--fs-xl);color:var(--text-muted)"></span>
+      </h1>
+
+      <!-- Empty Cart State -->
+      <div id="empty-cart" style="text-align:center;padding:6rem 2rem;display:none">
+        <div style="font-size:5rem;margin-bottom:1.5rem">🛒</div>
+        <h2 style="font-family:var(--font-display);font-size:var(--fs-3xl);color:var(--text-primary);margin-bottom:0.75rem">Your cart is empty</h2>
+        <p style="color:var(--text-muted);margin-bottom:2rem">Looks like you haven't added any premium timber products yet.</p>
+        <a href="products.html" class="btn btn-primary btn-lg">
+          <i class="fa-solid fa-store"></i> Continue Shopping
+        </a>
+      </div>
+
+      <!-- Cart Layout -->
+      <div class="cart-layout" id="cart-layout" style="display:none">
+        <!-- Cart Items -->
+        <div class="cart-items-section">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem">
+            <h2 style="font-family:var(--font-display);font-size:var(--fs-xl);color:var(--text-primary)">Items</h2>
+            <button class="btn btn-ghost btn-sm" data-action="clearCartAndUpdate">
+              <i class="fa-solid fa-trash"></i> Clear Cart
+            </button>
+          </div>
+          <div id="cart-items-list"></div>
+
+          <!-- Coupon -->
+          <div class="glass-card" style="padding:1.5rem;margin-top:1.5rem;transform:none">
+            <h3 style="font-size:var(--fs-base);font-weight:600;color:var(--text-primary);margin-bottom:1rem">
+              <i class="fa-solid fa-tag" style="color:var(--c-teak)"></i> Apply Coupon Code
+            </h3>
+            <div class="coupon-form">
+              <input type="text" id="coupon-input" class="form-input" placeholder="Enter coupon code (e.g. TIMBER10)" style="flex:1">
+              <button class="btn btn-primary" data-action="applyCoupon">Apply</button>
+            </div>
+            <div id="coupon-message" style="font-size:var(--fs-sm);margin-top:0.5rem"></div>
+            <div style="margin-top:0.75rem;font-size:var(--fs-xs);color:var(--text-muted)">
+              Try: <span class="tag" style="cursor:pointer;font-size:0.65rem" data-action="setInputValue" data-args='["coupon-input", "TIMBER10"]'>TIMBER10</span>
+              <span class="tag" style="cursor:pointer;font-size:0.65rem" data-action="setInputValue" data-args='["coupon-input", "WOOD20"]'>WOOD20</span>
+              <span class="tag" style="cursor:pointer;font-size:0.65rem" data-action="setInputValue" data-args='["coupon-input", "LUXURY25"]'>LUXURY25</span>
+            </div>
+          </div>
+
+          <!-- Continue Shopping -->
+          <a href="products.html" class="btn btn-outline" style="margin-top:1rem">
+            <i class="fa-solid fa-arrow-left"></i> Continue Shopping
+          </a>
+        </div>
+
+        <!-- Summary -->
+        <div>
+          <div class="cart-summary">
+            <h2 class="cart-summary-title">Order Summary</h2>
+
+            <div class="cart-summary-row">
+              <span>Subtotal (<span id="summary-count">0</span> items)</span>
+              <span id="summary-subtotal">₹0</span>
+            </div>
+            <div class="cart-summary-row" id="discount-row" style="display:none;color:#4CAF79">
+              <span>Coupon Discount</span>
+              <span id="summary-discount">-₹0</span>
+            </div>
+            <div class="cart-summary-row">
+              <span>Shipping</span>
+              <span id="summary-shipping">₹299</span>
+            </div>
+            <div class="cart-summary-row">
+              <span>GST (18%)</span>
+              <span id="summary-tax">₹0</span>
+            </div>
+            <div class="cart-summary-row total">
+              <span>Total</span>
+              <span id="summary-total">₹0</span>
+            </div>
+
+            <button class="btn btn-primary btn-lg w-full ripple-container" style="margin-top:1.5rem" data-action="proceedToCheckout">
+              <i class="fa-solid fa-lock"></i> Proceed to Checkout
+            </button>
+
+            <div style="text-align:center;margin-top:1rem;font-size:var(--fs-xs);color:var(--text-muted)">
+              <i class="fa-solid fa-shield-halved"></i> 256-bit SSL Encrypted &nbsp;|&nbsp;
+              <i class="fa-solid fa-truck"></i> Free shipping over ₹5,000
+            </div>
+
+            <!-- Payment icons -->
+            <div style="display:flex;align-items:center;justify-content:center;gap:0.75rem;margin-top:1.25rem;flex-wrap:wrap">
+              <span style="font-size:var(--fs-xs);color:var(--text-muted)">Pay with:</span>
+              <span class="badge badge-info">Stripe</span>
+              <span class="badge badge-gold">Razorpay</span>
+              <span class="badge badge-success">UPI</span>
+              <span class="badge badge-info">COD</span>
+            </div>
+          </div>
+
+          <!-- Recently Viewed mini -->
+          <div class="glass-card" style="padding:1.5rem;margin-top:1.5rem;transform:none">
+            <h3 style="font-size:var(--fs-sm);font-weight:600;color:var(--text-secondary);margin-bottom:1rem">You May Also Like</h3>
+            <div id="cart-recommendations" style="display:flex;flex-direction:column;gap:0.75rem"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <div id="toast-container"></div>
+  <button id="back-to-top"><i class="fa-solid fa-chevron-up"></i></button>
+
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/animations.js"></script>
+  <script src="js/cart.js"></script>
+</body>
+</html>

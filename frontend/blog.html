@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Timber Journal — The TimberHaul Blog</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/components.css">
+  <style>
+    body{opacity:0} body.loaded{opacity:1;transition:opacity 0.4s}
+    
+    .blog-hero { padding: calc(var(--nav-h) + 4rem) 0 4rem; text-align: center; position: relative; overflow: hidden; }
+    .blog-hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 50% -50%, rgba(139,94,60,0.15) 0%, transparent 70%); z-index: -1; }
+    
+    .blog-filters { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; margin-bottom: 3rem; }
+    .blog-filter-btn { padding: 0.5rem 1.5rem; border-radius: 30px; border: 1px solid var(--border-subtle); background: var(--bg-surface-2); color: var(--text-muted); cursor: pointer; transition: all 0.25s; font-size: var(--fs-sm); font-weight: 600; }
+    .blog-filter-btn.active, .blog-filter-btn:hover { background: var(--c-walnut); color: #fff; border-color: var(--c-walnut); }
+    
+    .blog-grid-page { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 2rem; margin-bottom: 4rem; }
+  </style>
+</head>
+<body>
+  <div class="cursor-dot" id="cursor-dot"></div>
+  <div class="cursor-ring" id="cursor-ring"></div>
+
+  <nav id="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">
+        <div class="nav-logo-icon">🪵</div>
+        <span class="nav-logo-text">Timber<span>Haul</span></span>
+      </a>
+      <div class="nav-links">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="products.html" class="nav-link">Products</a>
+        <a href="blog.html" class="nav-link active">Blog</a>
+      </div>
+      <div class="nav-actions">
+        <button class="nav-action-btn" id="search-toggle"><i class="fa-solid fa-magnifying-glass"></i></button>
+        <button class="nav-action-btn" data-href="cart.html"><i class="fa-solid fa-bag-shopping"></i><span class="badge-dot" id="cart-count">0</span></button>
+        <button class="theme-toggle" id="theme-toggle"><div class="theme-toggle-thumb">🌙</div></button>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+    <div class="container">
+      <section class="blog-hero" data-reveal="fade-up">
+        <h1 style="font-family:var(--font-display);font-size:var(--fs-4xl);font-weight:800;color:var(--text-primary);margin-bottom:1rem">The Timber Journal</h1>
+        <p style="font-size:var(--fs-lg);color:var(--text-secondary);max-width:600px;margin:0 auto">Insights, guides, and inspiration for woodworkers, builders, and timber enthusiasts.</p>
+      </section>
+
+      <div class="blog-filters" data-reveal="fade-up" data-delay="100">
+        <button class="blog-filter-btn active" data-action="filterBlog" data-args='["all", "this"]'>All Articles</button>
+        <button class="blog-filter-btn" data-action="filterBlog" data-args='["Maintenance", "this"]'>Wood Maintenance</button>
+        <button class="blog-filter-btn" data-action="filterBlog" data-args='["Sustainability", "this"]'>Sustainability</button>
+        <button class="blog-filter-btn" data-action="filterBlog" data-args='["Guides", "this"]'>Buying Guides</button>
+        <button class="blog-filter-btn" data-action="filterBlog" data-args='["Design", "this"]'>Design Trends</button>
+      </div>
+
+      <div class="blog-grid-page stagger-children" id="blog-grid-page">
+        <!-- Injected via JS -->
+      </div>
+    </div>
+  </main>
+
+  <div id="toast-container"></div>
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/home.js"></script>
+  <script src="js/blog.js"></script>
+</body>
+</html>

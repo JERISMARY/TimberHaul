@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Profile — TimberHaul</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/products.css">
+  <style>body{opacity:0} body.loaded{opacity:1;transition:opacity 0.4s}</style>
+</head>
+<body>
+  <div class="cursor-dot" id="cursor-dot"></div>
+  <div class="cursor-ring" id="cursor-ring"></div>
+
+  <nav id="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">
+        <div class="nav-logo-icon">🪵</div>
+        <span class="nav-logo-text">Timber<span>Haul</span></span>
+      </a>
+      <div class="nav-links">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="products.html" class="nav-link">Products</a>
+        <a href="blog.html" class="nav-link">Blog</a>
+      </div>
+      <div class="nav-actions">
+        <button class="nav-action-btn" data-href="wishlist.html"><i class="fa-regular fa-heart"></i></button>
+        <button class="nav-action-btn" data-href="cart.html"><i class="fa-solid fa-bag-shopping"></i></button>
+        <button class="theme-toggle" id="theme-toggle"><div class="theme-toggle-thumb">🌙</div></button>
+        <button class="nav-hamburger" id="nav-hamburger"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="profile-page">
+    <div class="container">
+      <div class="breadcrumb" style="margin-bottom:2rem">
+        <a href="index.html">Home</a><span class="sep">/</span>
+        <span class="current">My Profile</span>
+      </div>
+
+      <div class="profile-layout">
+        <!-- Sidebar -->
+        <aside class="profile-sidebar">
+          <div class="profile-avatar-section" style="position:relative;">
+            <div style="position:relative;width:90px;height:90px;margin:0 auto 1rem;">
+              <div style="width:100%;height:100%;border-radius:50%;background:linear-gradient(135deg,var(--c-walnut),var(--c-teak));display:flex;align-items:center;justify-content:center;font-size:2.5rem;color:#fff;border:3px solid var(--c-teak);overflow:hidden;" id="pf-avatar-initial">U</div>
+              <label for="pf-avatar-upload" style="position:absolute;bottom:0;right:0;background:var(--c-teak);color:white;border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;cursor:pointer;border:2px solid var(--bg-surface-2);">
+                <i class="fa-solid fa-camera" style="font-size:0.8rem;"></i>
+              </label>
+              <input type="file" id="pf-avatar-upload" accept="image/*" style="display:none;" onchange="uploadAvatar(event)">
+            </div>
+            <h2 class="profile-name" id="pf-name">Loading...</h2>
+            <div class="profile-email" id="pf-email"></div>
+            <div style="margin-top:0.75rem"><span class="badge badge-gold" id="pf-role">Member</span></div>
+          </div>
+          <div class="profile-nav">
+            <div class="profile-nav-item active" data-action="switchProfileTab" data-args='["dashboard"]'>
+              <i class="fa-solid fa-chart-line" style="width:20px;text-align:center"></i> Dashboard
+            </div>
+            <div class="profile-nav-item" data-action="switchProfileTab" data-args='["orders"]'>
+              <i class="fa-solid fa-box-open" style="width:20px;text-align:center"></i> My Orders
+            </div>
+            <div class="profile-nav-item" data-action="switchProfileTab" data-args='["addresses"]'>
+              <i class="fa-solid fa-location-dot" style="width:20px;text-align:center"></i> Addresses
+            </div>
+            <div class="profile-nav-item" data-action="switchProfileTab" data-args='["settings"]'>
+              <i class="fa-solid fa-gear" style="width:20px;text-align:center"></i> Account Settings
+            </div>
+            <a href="admin/index.html" class="profile-nav-item" id="admin-link" style="display:none;color:var(--c-teak)">
+              <i class="fa-solid fa-shield-halved" style="width:20px;text-align:center"></i> Admin Portal
+            </a>
+            <div class="profile-nav-item" style="color:#E05252" data-action="Auth.logout">
+              <i class="fa-solid fa-arrow-right-from-bracket" style="width:20px;text-align:center"></i> Sign Out
+            </div>
+          </div>
+        </aside>
+
+        <!-- Main Content -->
+        <div style="min-width:0">
+          <!-- Tab: Dashboard -->
+          <div class="profile-tab-panel active" id="tab-dashboard">
+            <h2 style="font-family:var(--font-display);font-size:var(--fs-3xl);color:var(--text-primary);margin-bottom:1.5rem">Welcome back!</h2>
+            
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin-bottom:2rem">
+              <div class="glass-card" style="padding:1.5rem;text-align:center">
+                <div style="font-size:2rem;color:var(--c-teak);margin-bottom:0.5rem"><i class="fa-solid fa-star"></i></div>
+                <div style="font-size:var(--fs-2xl);font-weight:700;color:var(--c-gold)" id="dash-loyalty">0</div>
+                <div style="font-size:var(--fs-sm);color:var(--text-muted)">Loyalty Points</div>
+              </div>
+              <div class="glass-card" style="padding:1.5rem;text-align:center">
+                <div style="font-size:2rem;color:var(--c-teak);margin-bottom:0.5rem"><i class="fa-solid fa-box"></i></div>
+                <div style="font-size:var(--fs-2xl);font-weight:700;color:var(--text-primary)" id="dash-orders">0</div>
+                <div style="font-size:var(--fs-sm);color:var(--text-muted)">Total Orders</div>
+              </div>
+              <div class="glass-card" style="padding:1.5rem;text-align:center">
+                <div style="font-size:2rem;color:var(--c-teak);margin-bottom:0.5rem"><i class="fa-solid fa-heart"></i></div>
+                <div style="font-size:var(--fs-2xl);font-weight:700;color:var(--text-primary)" id="dash-wishlist">0</div>
+                <div style="font-size:var(--fs-sm);color:var(--text-muted)">Wishlist Items</div>
+              </div>
+            </div>
+
+            <h3 style="font-size:var(--fs-lg);color:var(--text-primary);margin-bottom:1rem">Recent Activity</h3>
+            <div class="glass-card" style="padding:1.5rem" id="recent-activity">
+              Loading...
+            </div>
+          </div>
+
+          <!-- Tab: Orders -->
+          <div class="profile-tab-panel" id="tab-orders">
+            <h2 style="font-family:var(--font-display);font-size:var(--fs-2xl);color:var(--text-primary);margin-bottom:1.5rem">My Orders</h2>
+            <div id="orders-list" style="display:flex;flex-direction:column;gap:1rem">
+              Loading orders...
+            </div>
+          </div>
+
+          <!-- Tab: Addresses -->
+          <div class="profile-tab-panel" id="tab-addresses">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem">
+              <h2 style="font-family:var(--font-display);font-size:var(--fs-2xl);color:var(--text-primary)">Saved Addresses</h2>
+              <button class="btn btn-primary btn-sm"><i class="fa-solid fa-plus"></i> Add New</button>
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1rem">
+              <div style="background:var(--bg-surface-2);border:1px solid var(--c-teak);border-radius:var(--radius-lg);padding:1.5rem;position:relative">
+                <span class="badge badge-gold" style="position:absolute;top:1rem;right:1rem">Default</span>
+                <div style="font-weight:600;color:var(--text-primary);margin-bottom:0.5rem" id="addr-name">Name</div>
+                <div style="font-size:var(--fs-sm);color:var(--text-muted);line-height:1.6" id="addr-full">
+                  123 Timber Lane<br>Andheri West, Mumbai<br>Maharashtra, 400053<br>India
+                </div>
+                <div style="display:flex;gap:1rem;margin-top:1rem">
+                  <button class="btn btn-ghost btn-sm">Edit</button>
+                  <button class="btn btn-ghost btn-sm" style="color:#E05252">Delete</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tab: Settings -->
+          <div class="profile-tab-panel" id="tab-settings">
+            <h2 style="font-family:var(--font-display);font-size:var(--fs-2xl);color:var(--text-primary);margin-bottom:1.5rem">Account Settings</h2>
+            <div class="glass-card" style="padding:2rem">
+              <form id="settings-form" onsubmit="updateProfile(event)">
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+                  <div class="form-group">
+                    <label class="form-label" for="set-firstName">First Name</label>
+                    <input type="text" id="set-firstName" class="form-input">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="set-lastName">Last Name</label>
+                    <input type="text" id="set-lastName" class="form-input">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="set-username">Username</label>
+                  <input type="text" id="set-username" class="form-input">
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="set-email">Email Address</label>
+                  <input type="email" id="set-email" class="form-input" disabled style="opacity:0.6;cursor:not-allowed">
+                  <div style="font-size:0.7rem;color:var(--text-muted);margin-top:0.25rem">Email cannot be changed directly. Contact support.</div>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="set-phone">Phone Number</label>
+                  <input type="tel" id="set-phone" class="form-input">
+                </div>
+                <hr style="border:none;border-top:1px solid var(--border-subtle);margin:1.5rem 0">
+                <div class="form-group">
+                  <label class="form-label" for="set-pass">New Password (leave blank to keep current)</label>
+                  <input type="password" id="set-pass" class="form-input">
+                </div>
+                <button type="submit" class="btn btn-primary" id="settings-btn">Save Changes</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Order Details Modal -->
+  <div class="modal-overlay" id="order-modal">
+    <div class="modal" style="max-width:600px">
+      <div class="modal-header">
+        <h3 class="modal-title">Order Details</h3>
+        <button class="modal-close" data-action="closeModal" data-args='["order-modal"]'>✕</button>
+      </div>
+      <div class="modal-body" id="order-modal-body"></div>
+    </div>
+  </div>
+
+  <div id="toast-container"></div>
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/profile.js"></script>
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Categories — TimberHaul</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="../css/global.css">
+  <link rel="stylesheet" href="../css/animations.css">
+  <link rel="stylesheet" href="../css/products.css">
+</head>
+<body data-sidebar="true">
+  <div class="admin-layout">
+    <main class="admin-main">
+      <div class="admin-topbar">
+        <div>
+          <h1 class="admin-page-title">Categories</h1>
+        </div>
+        <div class="admin-topbar-actions">
+          <button class="btn btn-primary" onclick="alert('Add Category Modal - Coming Soon')">
+            <i class="fa-solid fa-plus"></i> Add Category
+          </button>
+        </div>
+      </div>
+      <div class="admin-table-wrap">
+        <table class="admin-table">
+          <thead><tr><th>Image</th><th>Name</th><th>Slug</th><th>Featured</th><th>Actions</th></tr></thead>
+          <tbody id="cat-list"><tr><td colspan="5" style="text-align:center">Loading...</td></tr></tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+  <script src="../js/api.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="js/layout.js"></script>
+  <script src="../js/main.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      AdminLayout.init('nav-categories');
+      try {
+        const res = await window.api.getAdminCategories();
+        const cats = res.categories || res.data || [];
+        document.getElementById('cat-list').innerHTML = cats.map(c => `
+          <tr>
+            <td><img src="${c.image}" style="width:40px;height:40px;border-radius:4px;object-fit:cover"></td>
+            <td style="font-weight:600">${c.name}</td>
+            <td style="color:var(--text-muted)">${c.slug}</td>
+            <td><span class="badge ${c.featured ? 'badge-success' : 'badge-default'}">${c.featured ? 'Yes' : 'No'}</span></td>
+            <td>
+              <button class="btn btn-ghost btn-sm" onclick="alert('Edit Category')"><i class="fa-solid fa-pen"></i></button>
+              <button class="btn btn-ghost btn-sm" style="color:var(--c-danger)" onclick="alert('Delete Category')"><i class="fa-solid fa-trash"></i></button>
+            </td>
+          </tr>
+        `).join('');
+      } catch (err) {
+        document.getElementById('cat-list').innerHTML = `<tr><td colspan="5">Error: ${err.message}</td></tr>`;
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Products — TimberHaul</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="../css/global.css">
+  <link rel="stylesheet" href="../css/animations.css">
+  <link rel="stylesheet" href="../css/products.css">
+  <style>
+    :root { --sidebar-w: 256px; }
+    .modal-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.7); z-index:999; backdrop-filter:blur(4px); align-items:center; justify-content:center; }
+    .modal-overlay.active { display:flex; }
+    .modal-box { background:var(--bg-elevated); border:1px solid var(--glass-border); border-radius:var(--radius-xl); padding:2rem; width:min(640px, 92vw); max-height:90vh; overflow-y:auto; }
+    .modal-title { font-family:var(--font-display); font-size:var(--fs-2xl); font-weight:700; color:var(--text-primary); margin-bottom:1.5rem; }
+    .form-group { margin-bottom:1.25rem; }
+    .form-label { display:block; font-size:var(--fs-sm); font-weight:600; color:var(--text-muted); margin-bottom:0.4rem; text-transform:uppercase; letter-spacing:0.05em; }
+    .form-input, .form-select, .form-textarea {
+      width:100%; padding:0.75rem 1rem; background:var(--bg-surface-2); border:1px solid var(--border-subtle);
+      border-radius:var(--radius-md); color:var(--text-primary); font-size:var(--fs-sm); font-family:var(--font-body);
+      transition:border-color 0.2s;
+    }
+    .form-input:focus, .form-select:focus, .form-textarea:focus { border-color:var(--c-teak); outline:none; }
+    .form-row { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+    .image-upload-zone {
+      border:2px dashed var(--border-mild); border-radius:var(--radius-lg); padding:2rem;
+      text-align:center; cursor:pointer; transition:all 0.3s; background:var(--bg-surface);
+    }
+    .image-upload-zone:hover, .image-upload-zone.dragover { border-color:var(--c-teak); background:rgba(212,168,67,0.05); }
+    .image-upload-zone input { display:none; }
+    .image-previews { display:flex; flex-wrap:wrap; gap:0.75rem; margin-top:1rem; }
+    .image-preview-item { position:relative; width:80px; height:80px; border-radius:var(--radius-md); overflow:hidden; border:2px solid var(--border-subtle); }
+    .image-preview-item img { width:100%; height:100%; object-fit:cover; }
+    .image-preview-item .remove-img { position:absolute; top:2px; right:2px; background:rgba(0,0,0,0.7); border:none; color:#fff; border-radius:50%; width:18px; height:18px; font-size:10px; cursor:pointer; display:flex; align-items:center; justify-content:center; }
+    .upload-progress { display:none; margin-top:0.5rem; font-size:var(--fs-sm); color:var(--c-teak); }
+    .cloud-badge { display:inline-flex; align-items:center; gap:0.4rem; padding:0.25rem 0.75rem; background:rgba(100,200,120,0.12); border:1px solid rgba(100,200,120,0.3); border-radius:50px; font-size:var(--fs-xs); color:#4CAF79; font-weight:600; }
+    .disk-badge  { display:inline-flex; align-items:center; gap:0.4rem; padding:0.25rem 0.75rem; background:rgba(212,168,67,0.12); border:1px solid rgba(212,168,67,0.3); border-radius:50px; font-size:var(--fs-xs); color:var(--c-teak); font-weight:600; }
+    .product-thumb { width:44px; height:44px; border-radius:var(--radius-sm); object-fit:cover; background:var(--bg-surface-2); }
+  </style>
+</head>
+<body data-sidebar="true">
+  <!-- Sidebar injected by layout.js -->
+  <div class="admin-layout">
+    <!-- Main Content -->
+    <main class="admin-main">
+      <div class="admin-topbar">
+        <div>
+          <h1 class="admin-page-title">Products</h1>
+          <div id="storage-indicator" style="margin-top:0.35rem"></div>
+        </div>
+        <div class="admin-topbar-actions">
+          <button class="btn btn-primary" id="add-product-btn">
+            <i class="fa-solid fa-plus"></i> Add Product
+          </button>
+        </div>
+      </div>
+
+      <div class="admin-table-wrap">
+        <table class="admin-table">
+          <thead><tr>
+            <th>Product</th><th>Wood Type</th><th>Category</th>
+            <th>Price</th><th>Stock</th><th>Featured</th><th>Actions</th>
+          </tr></thead>
+          <tbody id="prod-list">
+            <tr><td colspan="7" style="text-align:center;padding:3rem;color:var(--text-muted)">
+              <div class="spinner" style="margin:0 auto 0.75rem"></div>Loading products...
+            </td></tr>
+          </tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+
+  <!-- ── Add / Edit Product Modal ───────────────────────────────────── -->
+  <div class="modal-overlay" id="product-modal">
+    <div class="modal-box">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem">
+        <h2 class="modal-title" id="modal-title">Add Product</h2>
+        <button class="btn btn-ghost btn-sm" data-action="closeProductModal">✕ Close</button>
+      </div>
+      <form id="product-form" enctype="multipart/form-data">
+        <input type="hidden" id="product-id">
+
+        <div class="form-row">
+          <div class="form-group" style="grid-column:1/-1">
+            <label class="form-label">Product Name *</label>
+            <input type="text" class="form-input" id="p-name" placeholder="e.g. Premium Teak Hardwood Plank" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Short Description</label>
+          <input type="text" class="form-input" id="p-shortdesc" placeholder="One-line summary" maxlength="300">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Full Description *</label>
+          <textarea class="form-textarea" id="p-desc" rows="3" placeholder="Detailed product description..." required></textarea>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Category *</label>
+            <select class="form-select" id="p-category" required>
+              <option value="">Select Category</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Wood Type *</label>
+            <select class="form-select" id="p-woodtype" required>
+              <option value="">Select Wood</option>
+              <option>Teak</option><option>Oak</option><option>Mahogany</option>
+              <option>Pine</option><option>Walnut</option><option>Rosewood</option>
+              <option>Mango</option><option>Sheesham</option><option>Bamboo</option>
+              <option>MDF</option><option>Plywood</option><option>Other</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Price (₹) *</label>
+            <input type="number" class="form-input" id="p-price" min="0" step="1" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Discount (%)</label>
+            <input type="number" class="form-input" id="p-discount" min="0" max="100" value="0">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Stock Qty *</label>
+            <input type="number" class="form-input" id="p-stock" min="0" value="0" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Unit</label>
+            <select class="form-select" id="p-unit">
+              <option>piece</option><option>sq ft</option><option>cubic ft</option><option>kg</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Image Upload Section -->
+        <div class="form-group">
+          <label class="form-label">
+            Product Images
+            <span id="upload-badge-inline" style="margin-left:0.5rem"></span>
+          </label>
+
+          <!-- Drag and Drop Zone -->
+          <div class="image-upload-zone" id="drop-zone" data-action="clickElement" data-args='["p-images"]'>
+            <i class="fa-solid fa-cloud-upload-alt" style="font-size:2rem;color:var(--c-teak);margin-bottom:0.75rem;display:block"></i>
+            <div style="font-weight:600;color:var(--text-primary);margin-bottom:0.25rem">Drop images here or click to browse</div>
+            <div style="font-size:var(--fs-xs);color:var(--text-muted)">JPEG, PNG, WebP — up to 10MB each — max 10 images</div>
+            <div id="upload-destination" style="margin-top:0.5rem;font-size:var(--fs-xs);font-weight:600;color:var(--c-teak)"></div>
+            <input type="file" id="p-images" accept="image/jpeg,image/png,image/webp" multiple>
+          </div>
+
+          <!-- Upload progress -->
+          <div class="upload-progress" id="upload-progress">
+            <i class="fa-solid fa-spinner fa-spin"></i> Uploading to Cloudinary...
+          </div>
+
+          <!-- Image Previews -->
+          <div class="image-previews" id="image-previews"></div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group" style="display:flex;align-items:center;gap:0.75rem;padding-top:1.5rem">
+            <input type="checkbox" id="p-featured" style="width:18px;height:18px;accent-color:var(--c-teak)">
+            <label for="p-featured" style="font-size:var(--fs-sm);font-weight:600;cursor:pointer">Featured Product</label>
+          </div>
+          <div class="form-group" style="display:flex;align-items:center;gap:0.75rem;padding-top:1.5rem">
+            <input type="checkbox" id="p-bestseller" style="width:18px;height:18px;accent-color:var(--c-teak)">
+            <label for="p-bestseller" style="font-size:var(--fs-sm);font-weight:600;cursor:pointer">Best Seller</label>
+          </div>
+        </div>
+
+        <div style="display:flex;gap:1rem;justify-content:flex-end;margin-top:1rem">
+          <button type="button" class="btn btn-ghost" data-action="closeProductModal">Cancel</button>
+          <button type="submit" class="btn btn-primary" id="save-product-btn">
+            <i class="fa-solid fa-save"></i> Save Product
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div id="toast-container"></div>
+
+  <script src="../js/api.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="js/layout.js"></script>
+  <script src="../js/main.js"></script>
+  <script>
+    let categories = [];
+    let uploadedImageUrls = [];
+    let isCloudinaryActive = false;
+    let editingProductId = null;
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      AdminLayout.init('nav-products');
+
+      // Check storage mode
+      try {
+        const status = await window.api.getUploadStatus();
+        isCloudinaryActive = status.cloudinaryConfigured;
+        const badge = isCloudinaryActive
+          ? `<span class="cloud-badge">☁️ Cloudinary Active — Images stored in Cloud + URLs in MongoDB</span>`
+          : `<span class="disk-badge">💾 Local Disk — Add Cloudinary keys to .env to enable cloud storage</span>`;
+        document.getElementById('storage-indicator').innerHTML = badge;
+        document.getElementById('upload-badge-inline').innerHTML = isCloudinaryActive
+          ? `<span class="cloud-badge" style="font-size:0.6rem">☁️ Cloudinary</span>`
+          : `<span class="disk-badge" style="font-size:0.6rem">💾 Local</span>`;
+        document.getElementById('upload-destination').textContent = isCloudinaryActive
+          ? '→ Will upload to Cloudinary CDN'
+          : '→ Will save to local server disk';
+      } catch (e) {
+        // backend not running
+      }
+
+      // Load categories for dropdown
+      try {
+        const catRes = await window.api.getCategories();
+        categories = catRes.categories || [];
+        const sel = document.getElementById('p-category');
+        categories.forEach(c => {
+          const opt = document.createElement('option');
+          opt.value = c._id;
+          opt.textContent = c.name;
+          sel.appendChild(opt);
+        });
+      } catch (e) {}
+
+      // Load products
+      await loadProducts();
+
+      // Add product button
+      const addBtn = document.getElementById('add-product-btn');
+      if(addBtn) addBtn.onclick = () => openProductModal();
+
+      // Image file input change
+      document.getElementById('p-images').addEventListener('change', e => {
+        previewLocalImages(Array.from(e.target.files));
+      });
+
+      // Drag and drop
+      const dropZone = document.getElementById('drop-zone');
+      dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('dragover'); });
+      dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
+      dropZone.addEventListener('drop', e => {
+        e.preventDefault();
+        dropZone.classList.remove('dragover');
+        previewLocalImages(Array.from(e.dataTransfer.files));
+      });
+
+      // Form submit
+      document.getElementById('product-form').addEventListener('submit', handleSaveProduct);
+    });
+
+    async function loadProducts() {
+      try {
+        const res = await window.api.getProducts({ limit: 100 });
+        const prods = res.products || [];
+        const MOCK = window.MOCK_PRODUCTS || [];
+        renderProducts(prods.length > 0 ? prods : MOCK);
+      } catch (e) {
+        renderProducts(window.MOCK_PRODUCTS || []);
+      }
+    }
+
+    function renderProducts(prods) {
+      if (!prods || prods.length === 0) {
+        document.getElementById('prod-list').innerHTML =
+          `<tr><td colspan="7" style="text-align:center;padding:3rem;color:var(--text-muted)">No products found. Click "Add Product" to create your first one.</td></tr>`;
+        return;
+      }
+      document.getElementById('prod-list').innerHTML = prods.map(p => {
+        const img = p.images?.[0]?.url || '';
+        const finalPrice = p.finalPrice || p.price;
+        return `<tr>
+          <td>
+            <div style="display:flex;align-items:center;gap:0.75rem">
+              ${img ? `<img src="${img}" class="product-thumb" alt="${p.name}" onerror="this.style.display='none'">` : '<div class="product-thumb" style="background:var(--bg-surface-2);display:flex;align-items:center;justify-content:center;font-size:1.25rem">🪵</div>'}
+              <div>
+                <div style="font-weight:600;color:var(--text-primary)">${p.name}</div>
+                <div style="font-size:0.68rem;color:var(--text-muted)">${(p._id+'').substring(0,12)}</div>
+              </div>
+            </div>
+          </td>
+          <td><span class="badge badge-info">${p.woodType}</span></td>
+          <td>${p.category?.name || '—'}</td>
+          <td>
+            <span style="font-weight:700;color:var(--c-teak)">₹${Number(finalPrice).toLocaleString('en-IN')}</span>
+            ${p.discount > 0 ? `<br><span style="font-size:0.68rem;text-decoration:line-through;color:var(--text-faint)">₹${Number(p.price).toLocaleString('en-IN')}</span>` : ''}
+          </td>
+          <td><span class="badge ${p.stock > 10 ? 'badge-success' : p.stock > 0 ? 'badge-warning' : 'badge-danger'}">${p.stock}</span></td>
+          <td>${p.featured ? '⭐' : '—'}</td>
+          <td style="white-space:nowrap">
+            <button class="btn btn-ghost btn-sm" data-action="editProduct" data-args='[${JSON.stringify(p).replace(/"/g,'&quot;')}]' style="margin-right:0.4rem"><i class="fa-solid fa-pen"></i></button>
+            <button class="btn btn-ghost btn-sm" data-action="deactivateProduct" data-args='["${p._id}"]' style="color:#E05252"><i class="fa-solid fa-trash"></i></button>
+          </td>
+        </tr>`;
+      }).join('');
+    }
+
+    function openProductModal(productData = null) {
+      editingProductId = productData?._id || null;
+      uploadedImageUrls = [];
+      document.getElementById('image-previews').innerHTML = '';
+      document.getElementById('product-form').reset();
+      document.getElementById('upload-progress').style.display = 'none';
+
+      document.getElementById('modal-title').textContent = productData ? 'Edit Product' : 'Add New Product';
+
+      if (productData) {
+        document.getElementById('p-name').value        = productData.name || '';
+        document.getElementById('p-shortdesc').value   = productData.shortDescription || '';
+        document.getElementById('p-desc').value        = productData.description || '';
+        document.getElementById('p-category').value    = productData.category?._id || productData.category || '';
+        document.getElementById('p-woodtype').value    = productData.woodType || '';
+        document.getElementById('p-price').value       = productData.price || 0;
+        document.getElementById('p-discount').value    = productData.discount || 0;
+        document.getElementById('p-stock').value       = productData.stock || 0;
+        document.getElementById('p-unit').value        = productData.unit || 'piece';
+        document.getElementById('p-featured').checked  = productData.featured || false;
+        document.getElementById('p-bestseller').checked = productData.bestSeller || false;
+
+        // Show existing images
+        if (productData.images?.length > 0) {
+          uploadedImageUrls = productData.images.map(img => ({ url: img.url, publicId: img.publicId, alt: img.alt }));
+          renderImagePreviews();
+        }
+      }
+
+      document.getElementById('product-modal').classList.add('active');
+    }
+
+    function closeProductModal() {
+      document.getElementById('product-modal').classList.remove('active');
+      editingProductId = null;
+      uploadedImageUrls = [];
+    }
+
+    function editProduct(productData) {
+      openProductModal(productData);
+    }
+
+    // Show local file previews before upload
+    function previewLocalImages(files) {
+      files.forEach(file => {
+        if (!file.type.startsWith('image/')) return;
+        const reader = new FileReader();
+        reader.onload = e => {
+          uploadedImageUrls.push({ url: e.target.result, file, alt: file.name });
+          renderImagePreviews();
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+
+    function renderImagePreviews() {
+      const container = document.getElementById('image-previews');
+      container.innerHTML = uploadedImageUrls.map((img, idx) => `
+        <div class="image-preview-item" title="${img.alt || ''}">
+          <img src="${img.url}" alt="preview">
+          <button class="remove-img" data-action="removeImage" data-args='[${idx}]'>✕</button>
+        </div>
+      `).join('');
+    }
+
+    function removeImage(idx) {
+      uploadedImageUrls.splice(idx, 1);
+      renderImagePreviews();
+    }
+
+    async function handleSaveProduct(e) {
+      e.preventDefault();
+      const btn = document.getElementById('save-product-btn');
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner spinner-sm"></span> Saving...';
+
+      try {
+        const formData = new FormData();
+        formData.append('name',             document.getElementById('p-name').value.trim());
+        formData.append('shortDescription', document.getElementById('p-shortdesc').value.trim());
+        formData.append('description',      document.getElementById('p-desc').value.trim());
+        formData.append('category',         document.getElementById('p-category').value);
+        formData.append('woodType',         document.getElementById('p-woodtype').value);
+        formData.append('price',            document.getElementById('p-price').value);
+        formData.append('discount',         document.getElementById('p-discount').value || 0);
+        formData.append('stock',            document.getElementById('p-stock').value);
+        formData.append('unit',             document.getElementById('p-unit').value);
+        formData.append('featured',         document.getElementById('p-featured').checked);
+        formData.append('bestSeller',       document.getElementById('p-bestseller').checked);
+
+        // Append actual File objects (new uploads)
+        const fileInput = document.getElementById('p-images');
+        if (fileInput.files.length > 0) {
+          document.getElementById('upload-progress').style.display = 'block';
+          Array.from(fileInput.files).forEach(f => formData.append('productImages', f));
+        }
+
+        let res;
+        if (editingProductId) {
+          res = await window.api.updateProduct(editingProductId, formData);
+        } else {
+          res = await window.api.createProduct(formData);
+        }
+
+        if (res.success) {
+          showToast(`Product "${res.product.name}" saved successfully! ${isCloudinaryActive ? '☁️ Images on Cloudinary' : ''}`, 'success');
+          closeProductModal();
+          await loadProducts();
+        } else {
+          showToast(res.message || 'Save failed', 'error');
+        }
+      } catch (err) {
+        showToast('Error: ' + err.message, 'error');
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fa-solid fa-save"></i> Save Product';
+        document.getElementById('upload-progress').style.display = 'none';
+      }
+    }
+
+    async function deactivateProduct(id) {
+      if (!confirm('Deactivate this product? It will be hidden from the store.')) return;
+      try {
+        await window.api.deleteProduct(id);
+        showToast('Product deactivated', 'success');
+        await loadProducts();
+      } catch (e) {
+        showToast('Error: ' + e.message, 'error');
+      }
+    }
+  </script>
+</body>
+</html>

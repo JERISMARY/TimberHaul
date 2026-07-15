@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Browse TimberHaul's complete collection of premium timber, furniture, plywood, doors, and wood products. Filter by wood type, price, and more.">
+  <title>Products — TimberHaul Premium Timber</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,800;1,400&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/products.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <style>body{opacity:0} body.loaded{opacity:1;transition:opacity 0.4s}</style>
+</head>
+<body>
+  <div class="loading-bar" id="loading-bar"></div>
+  <div class="cursor-dot" id="cursor-dot"></div>
+  <div class="cursor-ring" id="cursor-ring"></div>
+
+  <!-- Nav (same as index.html) -->
+  <nav id="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">
+        <div class="nav-logo-icon">🪵</div>
+        <span class="nav-logo-text">Timber<span>Haul</span></span>
+      </a>
+      <div class="nav-links">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="products.html" class="nav-link active">Products</a>
+        <a href="products.html?view=categories" class="nav-link">Categories</a>
+        <a href="index.html#services" class="nav-link">Services</a>
+        <a href="index.html#gallery" class="nav-link">Projects</a>
+        <a href="index.html#about" class="nav-link">About</a>
+        <a href="blog.html" class="nav-link">Blog</a>
+        <a href="index.html#contact" class="nav-link">Contact</a>
+      </div>
+      <div class="nav-actions">
+        <button class="nav-action-btn" id="search-toggle"><i class="fa-solid fa-magnifying-glass"></i></button>
+        <button class="nav-action-btn" data-href="wishlist.html"><i class="fa-regular fa-heart"></i><span class="badge-dot" id="wishlist-count" style="display:none">0</span></button>
+        <button class="nav-action-btn" data-href="cart.html"><i class="fa-solid fa-bag-shopping"></i><span class="badge-dot" id="cart-count">0</span></button>
+        <button class="nav-action-btn" id="profile-nav-btn" data-href="profile.html"><i class="fa-regular fa-circle-user"></i></button>
+        <button class="theme-toggle" id="theme-toggle"><div class="theme-toggle-thumb">🌙</div></button>
+        <button class="nav-hamburger" id="nav-hamburger"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="nav-mobile" id="nav-mobile">
+    <div class="nav-mobile-links">
+      <a href="index.html" class="nav-mobile-link">Home</a>
+      <a href="products.html" class="nav-mobile-link">Products</a>
+      <a href="blog.html" class="nav-mobile-link">Blog</a>
+      <a href="index.html#contact" class="nav-mobile-link">Contact</a>
+    </div>
+  </div>
+
+  <!-- Search Overlay (same) -->
+  <div class="search-bar-overlay" id="search-overlay">
+    <div class="search-bar-box">
+      <div class="search-input-wrap">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input type="text" id="search-input" class="search-input-field" placeholder="Search timber, furniture, wood types..." autocomplete="off">
+        <button class="btn btn-sm btn-ghost" id="search-close">ESC</button>
+      </div>
+      <div id="search-suggestions">
+        <div style="font-size:var(--fs-xs);color:var(--text-muted);margin-bottom:0.75rem;font-weight:600;text-transform:uppercase;letter-spacing:0.1em">Popular Searches</div>
+        <div class="search-tags" id="search-tags">
+          <span class="tag" data-action="doSearch" data-args='["Teak Planks"]'>Teak Planks</span>
+          <span class="tag" data-action="doSearch" data-args='["Walnut Furniture"]'>Walnut Furniture</span>
+          <span class="tag" data-action="doSearch" data-args='["Marine Plywood"]'>Marine Plywood</span>
+          <span class="tag" data-action="doSearch" data-args='["Oak Flooring"]'>Oak Flooring</span>
+        </div>
+      </div>
+      <div id="search-results" style="margin-top:1rem;display:none"></div>
+    </div>
+  </div>
+
+  <!-- Page Content -->
+  <main class="products-page">
+    <div class="container">
+      <!-- Breadcrumb -->
+      <div class="breadcrumb" style="margin-bottom:1.5rem" data-reveal="fade-up">
+        <a href="index.html">Home</a>
+        <span class="sep">/</span>
+        <span class="current" id="breadcrumb-current">All Products</span>
+      </div>
+
+      <!-- Page Header -->
+      <div style="margin-bottom:2rem" data-reveal="fade-up" data-delay="100">
+        <h1 style="font-family:var(--font-display);font-size:var(--fs-4xl);font-weight:800;background:linear-gradient(135deg,var(--text-primary),var(--c-oak),var(--c-teak));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:0.5rem" id="page-title">All Products</h1>
+        <p style="color:var(--text-muted);font-size:var(--fs-base)">Discover our complete collection of premium timber and wood products</p>
+      </div>
+
+      <!-- Layout -->
+      <div class="products-layout">
+        <!-- Sidebar Filters -->
+        <aside class="filter-sidebar" data-reveal="fade-right">
+          <div class="filter-header">
+            <h2 class="filter-title">Filters</h2>
+            <button class="btn btn-sm btn-ghost" data-action="clearFilters">Clear All</button>
+          </div>
+
+          <!-- Category -->
+          <div class="filter-section">
+            <div class="filter-section-title">Category</div>
+            <div class="filter-options" id="filter-categories">
+              <label class="filter-checkbox"><input type="checkbox" name="category" value="solid-wood" data-onchange="applyFilters"><span class="filter-checkbox-label">Solid Wood</span><span class="filter-checkbox-count">1,240</span></label>
+              <label class="filter-checkbox"><input type="checkbox" name="category" value="plywood" data-onchange="applyFilters"><span class="filter-checkbox-label">Plywood</span><span class="filter-checkbox-count">385</span></label>
+              <label class="filter-checkbox"><input type="checkbox" name="category" value="doors" data-onchange="applyFilters"><span class="filter-checkbox-label">Doors</span><span class="filter-checkbox-count">210</span></label>
+              <label class="filter-checkbox"><input type="checkbox" name="category" value="furniture" data-onchange="applyFilters"><span class="filter-checkbox-label">Furniture</span><span class="filter-checkbox-count">876</span></label>
+              <label class="filter-checkbox"><input type="checkbox" name="category" value="wooden-decor" data-onchange="applyFilters"><span class="filter-checkbox-label">Wooden Décor</span><span class="filter-checkbox-count">432</span></label>
+              <label class="filter-checkbox"><input type="checkbox" name="category" value="construction-timber" data-onchange="applyFilters"><span class="filter-checkbox-label">Construction Timber</span><span class="filter-checkbox-count">654</span></label>
+            </div>
+          </div>
+
+          <!-- Wood Type -->
+          <div class="filter-section">
+            <div class="filter-section-title">Wood Type</div>
+            <div class="filter-options">
+              <label class="filter-checkbox"><input type="checkbox" name="woodType" value="Teak" data-onchange="applyFilters"><span class="filter-checkbox-label">Teak</span><span class="filter-checkbox-count">342</span></label>
+              <label class="filter-checkbox"><input type="checkbox" name="woodType" value="Oak" data-onchange="applyFilters"><span class="filter-checkbox-label">Oak</span><span class="filter-checkbox-count">267</span></label>
+              <label class="filter-checkbox"><input type="checkbox" name="woodType" value="Walnut" data-onchange="applyFilters"><span class="filter-checkbox-label">Walnut</span><span class="filter-checkbox-count">198</span></label>
+              <label class="filter-checkbox"><input type="checkbox" name="woodType" value="Mahogany" data-onchange="applyFilters"><span class="filter-checkbox-label">Mahogany</span><span class="filter-checkbox-count">156</span></label>
+              <label class="filter-checkbox"><input type="checkbox" name="woodType" value="Pine" data-onchange="applyFilters"><span class="filter-checkbox-label">Pine</span><span class="filter-checkbox-count">412</span></label>
+              <label class="filter-checkbox"><input type="checkbox" name="woodType" value="Rosewood" data-onchange="applyFilters"><span class="filter-checkbox-label">Rosewood</span><span class="filter-checkbox-count">89</span></label>
+              <label class="filter-checkbox"><input type="checkbox" name="woodType" value="Plywood" data-onchange="applyFilters"><span class="filter-checkbox-label">Plywood/MDF</span><span class="filter-checkbox-count">385</span></label>
+            </div>
+          </div>
+
+          <!-- Price Range -->
+          <div class="filter-section">
+            <div class="filter-section-title">Price Range</div>
+            <div class="price-range-wrap">
+              <input type="range" class="price-slider" id="min-price-slider" min="0" max="100000" value="0" step="500" oninput="updatePriceRange()">
+              <input type="range" class="price-slider" id="max-price-slider" min="0" max="100000" value="100000" step="500" oninput="updatePriceRange()">
+              <div class="price-display">
+                <span>₹<span id="min-price-display">0</span></span>
+                <span>₹<span id="max-price-display">1,00,000</span></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Rating -->
+          <div class="filter-section">
+            <div class="filter-section-title">Minimum Rating</div>
+            <div class="rating-filters">
+              <div class="rating-filter-btn" onclick="setRating(4)" id="rating-4">⭐⭐⭐⭐ & up</div>
+              <div class="rating-filter-btn" onclick="setRating(3)" id="rating-3">⭐⭐⭐ & up</div>
+              <div class="rating-filter-btn" onclick="setRating(2)" id="rating-2">⭐⭐ & up</div>
+              <div class="rating-filter-btn" onclick="setRating(0)" id="rating-0">All Ratings</div>
+            </div>
+          </div>
+
+          <!-- Stock -->
+          <div class="filter-section">
+            <div class="filter-section-title">Availability</div>
+            <div class="filter-options">
+              <label class="filter-checkbox"><input type="checkbox" id="in-stock-filter" data-onchange="applyFilters"><span class="filter-checkbox-label">In Stock Only</span></label>
+              <label class="filter-checkbox"><input type="checkbox" id="on-sale-filter" data-onchange="applyFilters"><span class="filter-checkbox-label">On Sale</span></label>
+              <label class="filter-checkbox"><input type="checkbox" id="featured-filter" data-onchange="applyFilters"><span class="filter-checkbox-label">Featured</span></label>
+            </div>
+          </div>
+
+          <!-- Sustainability -->
+          <div class="filter-section">
+            <div class="filter-section-title">Sustainability</div>
+            <div class="filter-options">
+              <label class="filter-checkbox"><input type="checkbox" id="eco-filter" data-onchange="applyFilters"><span class="filter-checkbox-label">FSC Certified</span></label>
+            </div>
+          </div>
+
+          <button class="btn btn-primary w-full" onclick="applyFilters()">
+            <i class="fa-solid fa-filter"></i> Apply Filters
+          </button>
+        </aside>
+
+        <!-- Products Grid -->
+        <div>
+          <!-- Toolbar -->
+          <div class="products-toolbar">
+            <div class="products-count" id="products-count">Loading products...</div>
+            <div class="products-sort">
+              <select class="sort-select" id="sort-select" data-onchange="applyFilters">
+                <option value="-createdAt">Newest First</option>
+                <option value="finalPrice">Price: Low to High</option>
+                <option value="-finalPrice">Price: High to Low</option>
+                <option value="-rating">Top Rated</option>
+                <option value="-numReviews">Most Reviewed</option>
+                <option value="name">Name A-Z</option>
+              </select>
+              <div class="view-toggle">
+                <button class="view-btn active" id="grid-view-btn" onclick="setView('grid')" title="Grid view">⊞</button>
+                <button class="view-btn" id="list-view-btn" onclick="setView('list')" title="List view">≡</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Active filter tags -->
+          <div id="active-filters" style="display:flex;flex-wrap:wrap;gap:0.5rem;margin-bottom:1rem"></div>
+
+          <!-- Grid -->
+          <div class="product-grid" id="products-grid">
+            <div class="product-card skeleton" style="height:380px"></div>
+            <div class="product-card skeleton" style="height:380px"></div>
+            <div class="product-card skeleton" style="height:380px"></div>
+            <div class="product-card skeleton" style="height:380px"></div>
+            <div class="product-card skeleton" style="height:380px"></div>
+            <div class="product-card skeleton" style="height:380px"></div>
+          </div>
+
+          <!-- Pagination -->
+          <div class="pagination" id="pagination"></div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Quick View Modal -->
+  <div class="modal-overlay" id="quick-view-modal">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 class="modal-title">Quick View</h3>
+        <button class="modal-close" data-action="closeModal" data-args='["quick-view-modal"]'>✕</button>
+      </div>
+      <div class="modal-body" id="quick-view-body">
+        <div style="display:flex;gap:var(--space-xl)">
+          <div style="flex:1;border-radius:var(--radius-lg);overflow:hidden;height:280px;background:var(--bg-surface-2)">
+            <img id="qv-img" src="" alt="" style="width:100%;height:100%;object-fit:cover" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1546484396-fb3f6af5f40e?auto=format&fit=crop&w=800&q=80';">
+          </div>
+          <div style="flex:1;display:flex;flex-direction:column;gap:0.75rem">
+            <div class="badge badge-gold" id="qv-wood-type"></div>
+            <h3 style="font-family:var(--font-display);font-size:var(--fs-xl);color:var(--text-primary)" id="qv-name"></h3>
+            <div class="price-group"><span class="price-current" id="qv-price"></span><span class="price-original" id="qv-original-price"></span></div>
+            <div class="rating" id="qv-rating"></div>
+            <p style="font-size:var(--fs-sm);color:var(--text-muted);line-height:1.7" id="qv-desc"></p>
+            <div style="display:flex;gap:0.75rem;margin-top:auto">
+              <button class="btn btn-primary" style="flex:1" id="qv-add-cart"><i class="fa-solid fa-bag-shopping"></i> Add to Cart</button>
+              <button class="btn btn-outline" id="qv-view-full">View Details</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast-container"></div>
+  <button id="back-to-top"><i class="fa-solid fa-chevron-up"></i></button>
+
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/animations.js"></script>
+  <script src="js/home.js"></script>
+  <script src="js/products.js"></script>
+</body>
+</html>

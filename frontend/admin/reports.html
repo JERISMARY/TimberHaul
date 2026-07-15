@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Reports — TimberHaul</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="../css/global.css">
+  <link rel="stylesheet" href="../css/animations.css">
+  <link rel="stylesheet" href="../css/products.css">
+</head>
+<body data-sidebar="true">
+  <div class="admin-layout">
+    <main class="admin-main">
+      <div class="admin-topbar">
+        <h1 class="admin-page-title">Generate Reports</h1>
+      </div>
+      <div style="background:var(--bg-elevated);padding:2rem;border-radius:var(--radius-lg);border:1px solid var(--glass-border); max-width: 600px;">
+        <h3 style="margin-bottom:1.5rem;font-family:var(--font-display);color:var(--text-primary)">Export Data</h3>
+        
+        <div class="form-group">
+          <label class="form-label">Report Type</label>
+          <select class="form-select" id="report-type">
+            <option value="sales">Sales Report</option>
+            <option value="inventory">Inventory Report</option>
+            <option value="customers">Customer Report</option>
+          </select>
+        </div>
+        
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Start Date</label>
+            <input type="date" class="form-input" id="report-start">
+          </div>
+          <div class="form-group">
+            <label class="form-label">End Date</label>
+            <input type="date" class="form-input" id="report-end">
+          </div>
+        </div>
+        
+        <div style="display:flex;gap:1rem;margin-top:2rem">
+          <button class="btn btn-primary" style="flex:1" onclick="alert('Generating CSV...')"><i class="fa-solid fa-file-csv"></i> Download CSV</button>
+          <button class="btn btn-outline" style="flex:1" onclick="alert('Generating PDF...')"><i class="fa-solid fa-file-pdf"></i> Download PDF</button>
+        </div>
+      </div>
+    </main>
+  </div>
+  <script src="../js/api.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="js/layout.js"></script>
+  <script src="../js/main.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      AdminLayout.init('nav-reports');
+      // Default dates
+      document.getElementById('report-end').valueAsDate = new Date();
+      let lastMonth = new Date();
+      lastMonth.setMonth(lastMonth.getMonth() - 1);
+      document.getElementById('report-start').valueAsDate = lastMonth;
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TimberHaul Admin Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;1,600&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/components.css">
+  <style>
+    body { display: flex; min-height: 100vh; background-color: var(--bg-surface-1); }
+    .admin-sidebar { width: 260px; background: var(--bg-surface-2); padding: var(--space-xl) var(--space-md); display: flex; flex-direction: column; gap: var(--space-md); border-right: 1px solid var(--border-color); }
+    .admin-content { flex: 1; padding: var(--space-2xl); overflow-y: auto; }
+    .admin-nav-link { padding: var(--space-sm) var(--space-md); color: var(--text-muted); text-decoration: none; border-radius: var(--radius-md); transition: all 0.3s ease; display: flex; align-items: center; gap: 0.75rem; font-weight: 500; }
+    .admin-nav-link:hover, .admin-nav-link.active { background: var(--c-forest); color: white; }
+    .stat-card { background: var(--bg-surface-2); padding: var(--space-xl); border-radius: var(--radius-lg); border: 1px solid var(--border-color); display: flex; flex-direction: column; gap: 0.5rem; }
+    .stat-value { font-family: var(--font-display); font-size: 2.5rem; color: var(--c-gold); }
+    .stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--space-lg); margin-bottom: var(--space-2xl); }
+    .data-table { width: 100%; border-collapse: collapse; margin-top: var(--space-lg); }
+    .data-table th, .data-table td { padding: var(--space-md); text-align: left; border-bottom: 1px solid var(--border-color); }
+    .data-table th { color: var(--text-muted); font-weight: 500; }
+    .data-table tbody tr:hover { background: var(--bg-surface-3); }
+  </style>
+</head>
+<body>
+
+  <aside class="admin-sidebar">
+    <h2 style="font-family: var(--font-display); color: var(--c-gold); margin-bottom: var(--space-xl); padding-left: var(--space-sm);">TimberHaul Admin</h2>
+    <a href="#dashboard" class="admin-nav-link active" data-action="showSection" data-args='["dashboard"]'><i class="fa-solid fa-chart-line"></i> Dashboard</a>
+    <a href="#orders" class="admin-nav-link" data-action="showSection" data-args='["orders"]'><i class="fa-solid fa-box"></i> Orders</a>
+    <a href="#custom-orders" class="admin-nav-link" data-action="showSection" data-args='["custom-orders"]'><i class="fa-solid fa-hammer"></i> Custom Orders</a>
+    <a href="#leads" class="admin-nav-link" data-action="showSection" data-args='["leads"]'><i class="fa-solid fa-users"></i> CRM Leads</a>
+    <a href="#products" class="admin-nav-link" data-action="showSection" data-args='["products"]'><i class="fa-solid fa-tree"></i> Products</a>
+    <a href="#coupons" class="admin-nav-link" data-action="showSection" data-args='["coupons"]'><i class="fa-solid fa-ticket"></i> Coupons</a>
+    <a href="#messages" class="admin-nav-link" data-action="showSection" data-args='["messages"]'><i class="fa-solid fa-envelope"></i> Enquiries</a>
+    <a href="index.html" class="admin-nav-link" style="margin-top: auto;"><i class="fa-solid fa-arrow-left"></i> Back to Store</a>
+  </aside>
+
+  <main class="admin-content">
+    <!-- Dashboard Section -->
+    <section id="section-dashboard">
+      <h1 class="section-title">Overview Analytics</h1>
+      <div class="stat-grid" id="stats-container">
+        <div class="stat-card"><h3>Total Revenue</h3><div class="stat-value" id="stat-revenue">₹0</div></div>
+        <div class="stat-card"><h3>Total Orders</h3><div class="stat-value" id="stat-orders">0</div></div>
+        <div class="stat-card"><h3>Low Stock Items</h3><div class="stat-value" id="stat-low-stock" style="color:var(--c-error)">0</div></div>
+      </div>
+      <h2>Recent Orders</h2>
+      <table class="data-table">
+        <thead><tr><th>Order ID</th><th>Customer</th><th>Status</th><th>Total</th><th>Action</th></tr></thead>
+        <tbody id="recent-orders-list"></tbody>
+      </table>
+    </section>
+
+    <!-- Orders Section -->
+    <section id="section-orders" style="display: none;">
+      <h1 class="section-title">Order Management</h1>
+      <table class="data-table">
+        <thead><tr><th>Order ID</th><th>Customer</th><th>Status</th><th>Total</th><th>Action</th></tr></thead>
+        <tbody id="all-orders-list"></tbody>
+      </table>
+    </section>
+
+    <!-- Custom Orders Section -->
+    <section id="section-custom-orders" style="display: none;">
+      <h1 class="section-title">Custom Furniture Requests</h1>
+      <table class="data-table">
+        <thead><tr><th>Type</th><th>Wood</th><th>Customer</th><th>Status</th><th>Quote Price</th><th>Action</th></tr></thead>
+        <tbody id="custom-orders-list"></tbody>
+      </table>
+    </section>
+
+    <!-- Leads CRM Section -->
+    <section id="section-leads" style="display: none;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 2rem;">
+        <h1 class="section-title" style="margin:0;">CRM Lead Management</h1>
+      </div>
+      <table class="data-table">
+        <thead><tr><th>Name</th><th>Email</th><th>Source</th><th>Status</th><th>Rep</th><th>Action</th></tr></thead>
+        <tbody id="leads-list"></tbody>
+      </table>
+    </section>
+
+    <!-- Products Section -->
+    <section id="section-products" style="display: none;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 2rem;">
+        <h1 class="section-title" style="margin:0;">Products & Inventory</h1>
+        <button class="btn btn-primary" data-action="alert" data-args='["Product creation modal placeholder"]'><i class="fa-solid fa-plus"></i> Add Product</button>
+      </div>
+      <table class="data-table">
+        <thead><tr><th>Product Name</th><th>Category</th><th>Price</th><th>Stock</th><th>Action</th></tr></thead>
+        <tbody id="products-list"></tbody>
+      </table>
+    </section>
+
+    <!-- Coupons Section -->
+    <section id="section-coupons" style="display: none;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 2rem;">
+        <h1 class="section-title" style="margin:0;">Discount Coupons</h1>
+        <button class="btn btn-primary" data-action="createMockCoupon"><i class="fa-solid fa-plus"></i> Generate 10% Off</button>
+      </div>
+      <table class="data-table">
+        <thead><tr><th>Code</th><th>Discount</th><th>Usage</th><th>Status</th><th>Action</th></tr></thead>
+        <tbody id="coupons-list"></tbody>
+      </table>
+    </section>
+  </main>
+
+  <script src="js/auth.js"></script>
+  <script src="js/api.js"></script>
+  <script>
+    if (!Auth.requireAdmin()) return;
+
+    function showSection(id) {
+      document.querySelectorAll('section').forEach(s => s.style.display = 'none');
+      document.getElementById(`section-${id}`).style.display = 'block';
+      document.querySelectorAll('.admin-nav-link').forEach(l => l.classList.remove('active'));
+      event.currentTarget.classList.add('active');
+    }
+
+    async function loadAdminData() {
+      try {
+        const ordersRes = await window.api.getAdminOrders();
+        let html = '';
+        let revenue = 0;
+        
+        ordersRes.orders.forEach(order => {
+          revenue += order.totalPrice;
+          html += `
+            <tr>
+              <td>#${order._id.substring(0,8)}</td>
+              <td>${order.user?.name || 'Guest'}</td>
+              <td><span class="badge ${order.status === 'delivered' ? 'badge-gold' : ''}">${order.status}</span></td>
+              <td>₹${order.totalPrice.toLocaleString('en-IN')}</td>
+              <td>
+                <select onchange="updateOrderStatus('${order._id}', this.value)">
+                  <option value="" disabled selected>Update...</option>
+                  <option value="processing">Processing</option>
+                  <option value="dispatched">Dispatched (Shipped)</option>
+                  <option value="delivered">Delivered</option>
+                </select>
+                <a href="${window.api.baseUrl}/orders/${order._id}/invoice?token=${Auth.getToken()}" target="_blank" class="btn btn-outline" style="padding:4px 8px; font-size:12px;">Invoice</a>
+              </td>
+            </tr>
+          `;
+        });
+        
+        document.getElementById('recent-orders-list').innerHTML = html;
+        document.getElementById('all-orders-list').innerHTML = html;
+        document.getElementById('stat-orders').innerText = ordersRes.total || ordersRes.orders.length;
+        document.getElementById('stat-revenue').innerText = `₹${revenue.toLocaleString('en-IN')}`;
+
+        // Load Products for Low Stock
+        const prodRes = await window.api.getProducts({ limit: 100 });
+        let phtml = '';
+        let lowStockCount = 0;
+        prodRes.products.forEach(p => {
+          if (p.stock < 5) lowStockCount++;
+          phtml += `
+            <tr>
+              <td>${p.name}</td>
+              <td>${p.category?.name || 'N/A'}</td>
+              <td>₹${(p.finalPrice || p.price).toLocaleString('en-IN')}</td>
+              <td><span style="color:${p.stock < 5 ? 'var(--c-error)' : 'inherit'}; font-weight:${p.stock < 5 ? '700' : 'normal'}">${p.stock}</span></td>
+              <td><button class="btn btn-outline btn-sm" data-action="alert" data-args='["Edit product"]'>Edit</button></td>
+            </tr>
+          `;
+        });
+        document.getElementById('products-list').innerHTML = phtml;
+        document.getElementById('stat-low-stock').innerText = lowStockCount;
+
+        // Load Coupons
+        const coupRes = await window.api.get('/api/coupons');
+        let chtml = '';
+        if (coupRes.coupons) {
+          coupRes.coupons.forEach(c => {
+            chtml += `
+              <tr>
+                <td><strong>${c.code}</strong></td>
+                <td>${c.discountType === 'percentage' ? c.discountValue + '%' : '₹' + c.discountValue}</td>
+                <td>${c.usedCount} / ${c.usageLimit || '∞'}</td>
+                <td>${c.isActive ? 'Active' : 'Inactive'}</td>
+                <td><button class="btn btn-outline btn-sm" data-action="deleteCoupon" data-args='["${c._id}"]'>Delete</button></td>
+              </tr>
+            `;
+          });
+        }
+        document.getElementById('coupons-list').innerHTML = chtml;
+
+        // Load Custom Orders
+        const coRes = await window.api.get('/api/custom-orders');
+        let cohtml = '';
+        if (coRes.customOrders) {
+          coRes.customOrders.forEach(co => {
+            cohtml += `
+              <tr>
+                <td>${co.furnitureType}</td>
+                <td>${co.woodType}</td>
+                <td>${co.user?.name || co.guestName}</td>
+                <td><span class="badge">${co.status}</span></td>
+                <td>${co.quotedPrice ? '₹' + co.quotedPrice : 'Pending'}</td>
+                <td>
+                  <button class="btn btn-primary btn-sm" data-action="quoteCustom" data-args='["${co._id}"]'>Quote</button>
+                </td>
+              </tr>
+            `;
+          });
+        }
+        document.getElementById('custom-orders-list').innerHTML = cohtml;
+
+        // Load CRM Leads
+        try {
+          const lRes = await window.api.get('/api/leads');
+          let lhtml = '';
+          if (lRes.leads) {
+            lRes.leads.forEach(l => {
+              lhtml += `
+                <tr>
+                  <td>${l.name}</td>
+                  <td>${l.email}</td>
+                  <td>${l.source}</td>
+                  <td>
+                    <select data-onchange="updateLeadStatus" data-args='["${l._id}", "VALUE"]' style="padding:4px; font-size:0.85rem;">
+                      <option value="New" ${l.status==='New'?'selected':''}>New</option>
+                      <option value="Contacted" ${l.status==='Contacted'?'selected':''}>Contacted</option>
+                      <option value="Quoted" ${l.status==='Quoted'?'selected':''}>Quoted</option>
+                      <option value="Converted" ${l.status==='Converted'?'selected':''}>Converted</option>
+                      <option value="Lost" ${l.status==='Lost'?'selected':''}>Lost</option>
+                    </select>
+                  </td>
+                  <td>${l.salesRep?.name || 'Unassigned'}</td>
+                  <td><button class="btn btn-outline btn-sm" data-action="alert" data-args='["View/Add Notes functionality"]'>Notes (${l.notes?.length || 0})</button></td>
+                </tr>
+              `;
+            });
+          }
+          document.getElementById('leads-list').innerHTML = lhtml;
+        } catch (e) {
+          console.log('Error loading leads', e);
+        }
+
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
+    async function createMockCoupon() {
+      try {
+        await window.api.post('/api/coupons', {
+          code: 'FESTIVAL10-' + Math.floor(Math.random()*1000),
+          discountType: 'percentage',
+          discountValue: 10,
+          expirationDate: new Date(Date.now() + 30*24*60*60*1000)
+        });
+        loadAdminData();
+      } catch(e) { alert(e.message); }
+    }
+
+    async function deleteCoupon(id) {
+      try {
+        await window.api.delete(`/api/coupons/${id}`);
+        loadAdminData();
+      } catch(e) { alert(e.message); }
+    }
+
+    async function quoteCustom(id) {
+      const price = prompt('Enter quote price (INR):');
+      if (!price) return;
+      const days = prompt('Estimated completion days:');
+      try {
+        await window.api.put(`/api/custom-orders/${id}/quote`, { quotedPrice: Number(price), estimatedCompletionDays: Number(days) });
+        alert('Quote sent!');
+        loadAdminData();
+      } catch(e) { alert(e.message); }
+    }
+
+    async function updateOrderStatus(orderId, status) {
+      try {
+        await window.api.updateOrderStatus(orderId, { status, trackingNumber: 'TRK' + Math.floor(Math.random()*10000) });
+        alert(`Order ${orderId} updated to ${status}. Notification sent!`);
+        loadAdminData();
+      } catch (err) {
+        alert(err.message);
+      }
+    }
+
+    async function updateLeadStatus(id, status) {
+      try {
+        await window.api.put(`/api/leads/${id}`, { status });
+        showToast('Lead status updated', 'success');
+      } catch(e) {
+        alert(e.message);
+      }
+    }
+
+    window.addEventListener('DOMContentLoaded', loadAdminData);
+  </script>
+</body>
+</html>

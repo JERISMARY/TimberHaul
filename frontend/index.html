@@ -1,0 +1,1072 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description"
+    content="TimberHaul — Premium wood products, timber, furniture, plywood, and wooden décor. Quality wood, sustainable sourcing, nationwide delivery.">
+  <meta name="keywords" content="timber, wood, furniture, plywood, teak, walnut, oak, hardwood, lumber">
+  <meta property="og:title" content="TimberHaul — Premium Timber for Every Project">
+  <meta property="og:description" content="Quality wood, sustainable sourcing, nationwide delivery.">
+  <title>TimberHaul — Premium Timber for Every Project</title>
+
+  <!-- Preload critical assets -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,600&family=Poppins:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/home.css">
+  <link rel="stylesheet" href="css/responsive.css">
+
+  <style>
+    /* Inline critical CSS for fastest render */
+    body {
+      opacity: 0;
+    }
+
+    body.loaded {
+      opacity: 1;
+      transition: opacity 0.4s ease;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Loading Bar -->
+  <div class="loading-bar" id="loading-bar" style="width:0%"></div>
+
+  <!-- Custom Cursor (desktop only) -->
+  <div class="cursor-dot" id="cursor-dot"></div>
+  <div class="cursor-ring" id="cursor-ring"></div>
+
+  <!-- ═══════════════ NAVIGATION ═══════════════ -->
+  <nav id="navbar" role="navigation" aria-label="Main navigation">
+    <div class="nav-inner">
+      <!-- Logo -->
+      <a href="index.html" class="nav-logo" aria-label="TimberHaul Home">
+        <div class="nav-logo-icon">🪵</div>
+        <span class="nav-logo-text">Timber<span>Haul</span></span>
+      </a>
+
+      <!-- Desktop Links -->
+      <div class="nav-links" role="menubar">
+        <a href="index.html" class="nav-link active" role="menuitem">Home</a>
+        <a href="products.html" class="nav-link" role="menuitem">Products</a>
+        <a href="products.html?view=categories" class="nav-link" role="menuitem">Categories</a>
+        <a href="#services" class="nav-link" role="menuitem">Services</a>
+        <a href="#gallery" class="nav-link" role="menuitem">Projects</a>
+        <a href="#about" class="nav-link" role="menuitem">About</a>
+        <a href="blog.html" class="nav-link" role="menuitem">Blog</a>
+        <a href="#contact" class="nav-link" role="menuitem">Contact</a>
+        <a href="login.html" class="nav-link nav-auth-link" role="menuitem">Sign In</a>
+        <a href="register.html" class="nav-link nav-auth-link" role="menuitem">Sign Up</a>
+      </div>
+
+      <!-- Actions -->
+      <div class="nav-actions">
+        <button class="nav-action-btn" id="search-toggle" aria-label="Search" title="Search">
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+        <button class="nav-action-btn" id="wishlist-nav-btn" aria-label="Wishlist" title="Wishlist"
+          data-action="navigate" data-args='["wishlist.html"]'>
+          <i class="fa-regular fa-heart"></i>
+          <span class="badge-dot" id="wishlist-count" style="display:none">0</span>
+        </button>
+        <button class="nav-action-btn" id="cart-nav-btn" aria-label="Cart" title="Cart"
+          data-action="navigate" data-args='["cart.html"]'>
+          <i class="fa-solid fa-bag-shopping"></i>
+          <span class="badge-dot" id="cart-count">0</span>
+        </button>
+        <button class="nav-action-btn" id="profile-nav-btn" aria-label="Profile" title="Profile"
+          data-action="navigate" data-args='["profile.html"]'>
+          <i class="fa-regular fa-circle-user"></i>
+        </button>
+        <!-- Theme Toggle -->
+        <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme" title="Toggle light/dark mode">
+          <div class="theme-toggle-thumb">🌙</div>
+        </button>
+
+        <!-- Hamburger -->
+        <button class="nav-hamburger" id="nav-hamburger" aria-label="Menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Mobile Menu -->
+  <div class="nav-mobile" id="nav-mobile" aria-hidden="true">
+    <div class="nav-mobile-links">
+      <a href="index.html" class="nav-mobile-link">Home</a>
+      <a href="products.html" class="nav-mobile-link">Products</a>
+      <a href="products.html?view=categories" class="nav-mobile-link">Categories</a>
+      <a href="#services" class="nav-mobile-link">Services</a>
+      <a href="#gallery" class="nav-mobile-link">Projects</a>
+      <a href="#about" class="nav-mobile-link">About</a>
+      <a href="blog.html" class="nav-mobile-link">Blog</a>
+      <a href="#contact" class="nav-mobile-link">Contact</a>
+    </div>
+    <div style="display:flex;gap:1rem;flex-wrap:wrap" id="nav-mobile-auth">
+      <a href="login.html" class="btn btn-outline btn-sm">Sign In</a>
+      <a href="register.html" class="btn btn-primary btn-sm">Create Account</a>
+    </div>
+  </div>
+
+  <!-- Search Overlay -->
+  <div class="search-bar-overlay" id="search-overlay" aria-modal="true" role="dialog">
+    <div class="search-bar-box">
+      <div class="search-input-wrap">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input type="text" id="search-input" class="search-input-field"
+          placeholder="Search timber, furniture, wood types..." autocomplete="off" aria-label="Search products">
+        <button class="btn btn-sm btn-ghost" id="search-close" aria-label="Close search">ESC</button>
+      </div>
+      <div id="search-suggestions">
+        <div
+          style="font-size:var(--fs-xs);color:var(--text-muted);margin-bottom:0.75rem;font-weight:600;text-transform:uppercase;letter-spacing:0.1em">
+          Popular Searches</div>
+        <div style="display:flex;flex-wrap:wrap;gap:0.5rem" id="popular-searches">
+          <span class="tag" data-action="doSearch" data-args='["Teak Planks"]'>Teak Planks</span>
+          <span class="tag" data-action="doSearch" data-args='["Walnut Furniture"]'>Walnut Furniture</span>
+          <span class="tag" data-action="doSearch" data-args='["Marine Plywood"]'>Marine Plywood</span>
+          <span class="tag" data-action="doSearch" data-args='["Oak Flooring"]'>Oak Flooring</span>
+          <span class="tag" data-action="doSearch" data-args='["Pine Beams"]'>Pine Beams</span>
+          <span class="tag" data-action="doSearch" data-args='["Wooden Doors"]'>Wooden Doors</span>
+        </div>
+      </div>
+      <div id="search-results" style="margin-top:1rem;display:none"></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════ HERO SECTION ═══════════════ -->
+  <section id="hero" class="hero-section" aria-label="Hero">
+    <!-- Background -->
+    <div class="hero-bg">
+      <div class="hero-bg-img" id="hero-bg-img"
+        style="background-image: url('https://images.unsplash.com/photo-1546484396-fb3f6af5f40e?auto=format&fit=crop&w=1920&q=80')">
+      </div>
+      <div class="hero-bg-overlay"></div>
+      <canvas class="particles-canvas" id="particles-canvas"></canvas>
+    </div>
+
+    <!-- Floating 3D planks -->
+    <div class="hero-planks" aria-hidden="true">
+      <div class="floating-plank plank-1"
+        style="--plank-rot:-12deg;--plank-dur:7s;--plank-delay:0s;--plank-color-1:#6B4428;--plank-color-2:#A97850">
+      </div>
+      <div class="floating-plank plank-2"
+        style="--plank-rot:5deg;--plank-dur:8s;--plank-delay:-2s;--plank-color-1:#C8A96E;--plank-color-2:#D4A843"></div>
+      <div class="floating-plank plank-3"
+        style="--plank-rot:-6deg;--plank-dur:6s;--plank-delay:-4s;--plank-color-1:#4A3520;--plank-color-2:#8B5E3C">
+      </div>
+      <div class="floating-plank plank-4"
+        style="--plank-rot:15deg;--plank-dur:9s;--plank-delay:-1s;--plank-color-1:#8B5E3C;--plank-color-2:#C8A96E">
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="container hero-container">
+      <div class="hero-content">
+        <div class="hero-tag" data-reveal="fade-up">
+          <span class="section-tag">🌲 Certified Sustainable Timber</span>
+        </div>
+
+        <h1 class="hero-heading" data-reveal="fade-up" data-delay="100">
+          Premium Timber<br>
+          <em>for Every Project</em>
+        </h1>
+
+        <p class="hero-subtitle" data-reveal="fade-up" data-delay="200">
+          Quality wood, sustainable sourcing, nationwide delivery.<br>
+          From raw timber to finished masterpieces.
+        </p>
+
+        <div class="hero-buttons" data-reveal="fade-up" data-delay="300">
+          <a href="products.html" class="btn btn-primary btn-lg ripple-container" id="hero-shop-btn">
+            <i class="fa-solid fa-store"></i>
+            Shop Now
+          </a>
+          <a href="#categories" class="btn btn-outline btn-lg">
+            <i class="fa-solid fa-compass"></i>
+            Explore Collection
+          </a>
+        </div>
+
+        <!-- Hero Stats -->
+        <div class="hero-stats" data-reveal="fade-up" data-delay="400">
+          <div class="hero-stat">
+            <span class="hero-stat-num" data-count="5000">5000</span>+
+            <span class="hero-stat-label">Products</span>
+          </div>
+          <div class="hero-stat-divider"></div>
+          <div class="hero-stat">
+            <span class="hero-stat-num" data-count="25000">25K</span>+
+            <span class="hero-stat-label">Happy Customers</span>
+          </div>
+          <div class="hero-stat-divider"></div>
+          <div class="hero-stat">
+            <span class="hero-stat-num" data-count="150">150</span>+
+            <span class="hero-stat-label">Wood Varieties</span>
+          </div>
+          <div class="hero-stat-divider"></div>
+          <div class="hero-stat">
+            <span class="hero-stat-num" data-count="18">18</span>
+            <span class="hero-stat-label">Years Experience</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Floating Product Showcase Card -->
+      <div class="hero-showcase-card" data-reveal="fade-left" data-delay="200" aria-hidden="true">
+        <div class="showcase-img-wrap">
+          <img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=800&q=80"
+            alt="Premium walnut product" loading="lazy">
+        </div>
+        <div class="showcase-info">
+          <div class="showcase-tag badge badge-gold">Featured</div>
+          <h3 class="showcase-name">Walnut Dining Table</h3>
+          <div class="showcase-price">
+            <span class="price-current">₹26,600</span>
+            <span class="price-original">₹28,000</span>
+          </div>
+          <div class="rating">
+            <span class="rating-stars">★★★★★</span>
+            <span class="rating-count">(128)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scroll indicator -->
+    <div class="hero-scroll-indicator" aria-label="Scroll down">
+      <div class="scroll-mouse">
+        <div class="scroll-wheel"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ FEATURES STRIP ═══════════════ -->
+  <section class="features-section section-sm" aria-label="Features">
+    <div class="container">
+      <div class="feature-grid stagger-children" id="features-grid">
+        <div class="feature-card" data-reveal="fade-up" data-delay="100">
+          <div class="feature-card-icon">🏆</div>
+          <h3 class="feature-card-title">Premium Quality</h3>
+          <p class="feature-card-desc">Every piece sourced from certified sustainable forests, kiln-dried and graded for
+            perfection.</p>
+        </div>
+        <div class="feature-card" data-reveal="fade-up" data-delay="200">
+          <div class="feature-card-icon">🚚</div>
+          <h3 class="feature-card-title">Fast Delivery</h3>
+          <p class="feature-card-desc">Nationwide delivery within 3–7 business days with real-time order tracking at
+            every step.</p>
+        </div>
+        <div class="feature-card" data-reveal="fade-up" data-delay="300">
+          <div class="feature-card-icon">🌱</div>
+          <h3 class="feature-card-title">Eco Friendly</h3>
+          <p class="feature-card-desc">FSC and PEFC certified timber. We plant 10 trees for every order — protecting our
+            forests.</p>
+        </div>
+        <div class="feature-card" data-reveal="fade-up" data-delay="400">
+          <div class="feature-card-icon">🤝</div>
+          <h3 class="feature-card-title">Trusted Suppliers</h3>
+          <p class="feature-card-desc">Direct partnerships with 50+ verified suppliers globally for authentic, top-grade
+            timber.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ CATEGORIES ═══════════════ -->
+  <section id="categories" class="section" aria-label="Categories">
+    <div class="container">
+      <div class="section-header" data-reveal="fade-up">
+        <span class="section-tag">Browse by Type</span>
+        <h2 class="section-title">Shop by Category</h2>
+        <p class="section-subtitle">From raw timber to refined furniture — find exactly what your project needs</p>
+      </div>
+
+      <div class="category-grid" id="categories-grid">
+        <!-- Dynamically populated by home.js -->
+        <div class="cat-card skeleton" style="min-height:300px"></div>
+        <div class="cat-card skeleton" style="min-height:250px"></div>
+        <div class="cat-card skeleton" style="min-height:250px"></div>
+        <div class="cat-card skeleton" style="min-height:250px"></div>
+        <div class="cat-card skeleton" style="min-height:250px"></div>
+        <div class="cat-card skeleton" style="min-height:250px"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ FEATURED PRODUCTS ═══════════════ -->
+  <section id="featured-products" class="section" style="background: var(--bg-surface)" aria-label="Featured Products">
+    <div class="container">
+      <div class="section-header" data-reveal="fade-up">
+        <span class="section-tag">Hand Picked</span>
+        <h2 class="section-title">Featured Products</h2>
+        <p class="section-subtitle">Curated selection of our most sought-after premium timber and wood products</p>
+      </div>
+
+      <!-- Filter Tabs -->
+      <div class="product-filter-tabs" data-reveal="fade-up" data-delay="100">
+        <button class="tag active" data-action="filterProducts" data-args='["all"]'>All Products</button>
+        <button class="tag" data-action="filterProducts" data-args='["Solid Wood"]'>Solid Wood</button>
+        <button class="tag" data-action="filterProducts" data-args='["Furniture"]'>Furniture</button>
+        <button class="tag" data-action="filterProducts" data-args='["Plywood"]'>Plywood</button>
+        <button class="tag" data-action="filterProducts" data-args='["Doors"]'>Doors</button>
+        <button class="tag" data-action="filterProducts" data-args='["Wooden Decor"]'>Decor</button>
+      </div>
+
+      <!-- Products Grid -->
+      <div class="product-grid" id="featured-products-grid" style="margin-top:var(--space-2xl)">
+        <!-- Skeleton loaders -->
+        <div class="product-card skeleton" style="height:380px"></div>
+        <div class="product-card skeleton" style="height:380px"></div>
+        <div class="product-card skeleton" style="height:380px"></div>
+        <div class="product-card skeleton" style="height:380px"></div>
+      </div>
+
+      <div class="text-center" style="margin-top:var(--space-2xl)">
+        <a href="products.html" class="btn btn-outline btn-lg">
+          View All Products <i class="fa-solid fa-arrow-right"></i>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ STATS SECTION ═══════════════ -->
+  <section class="section-sm" aria-label="Statistics">
+    <div class="container">
+      <div class="stats-grid" data-reveal="zoom">
+        <div class="stat-item">
+          <div class="stat-number" data-target="5000">0</div>
+          <div class="stat-label">Products Available</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number" data-target="25000">0</div>
+          <div class="stat-label">Happy Customers</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number" data-target="150">0</div>
+          <div class="stat-label">Wood Varieties</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number" data-target="18">0</div>
+          <div class="stat-label">Years of Excellence</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ WOOD TYPES ═══════════════ -->
+  <section id="wood-types" class="section" aria-label="Wood Types">
+    <div class="container">
+      <div class="section-header" data-reveal="fade-up">
+        <span class="section-tag">Our Collection</span>
+        <h2 class="section-title">Premium Wood Species</h2>
+        <p class="section-subtitle">Discover the unique character and properties of our finest wood species</p>
+      </div>
+
+      <div class="wood-type-grid stagger-children" id="wood-types-grid">
+        <div class="wood-type-card" data-wood="teak" data-href="products.html?woodType=Teak">
+          <div class="wood-swatch" style="background:linear-gradient(135deg,#7B5B30,#C8A050)"></div>
+          <div class="wood-type-name">Teak</div>
+          <div class="wood-type-origin">🌏 Myanmar, India</div>
+          <div class="wood-type-hardness">
+            <i class="fa-solid fa-bolt" style="font-size:0.7rem"></i> Very Hard
+          </div>
+          <div class="wood-type-desc">King of tropical hardwoods. Natural oils resist water, insects, and weathering.
+            Perfect for outdoor and marine use.</div>
+        </div>
+        <div class="wood-type-card" data-wood="oak" data-href="products.html?woodType=Oak">
+          <div class="wood-swatch" style="background:linear-gradient(135deg,#C8A96E,#E8C87A)"></div>
+          <div class="wood-type-name">Oak</div>
+          <div class="wood-type-origin">🌍 Europe, USA</div>
+          <div class="wood-type-hardness">
+            <i class="fa-solid fa-bolt" style="font-size:0.7rem"></i> Hard
+          </div>
+          <div class="wood-type-desc">Classic European hardwood with beautiful medullary rays. Ideal for flooring,
+            furniture, and wine barrels.</div>
+        </div>
+        <div class="wood-type-card" data-wood="mahogany" data-href="products.html?woodType=Mahogany">
+          <div class="wood-swatch" style="background:linear-gradient(135deg,#8B2500,#C04828)"></div>
+          <div class="wood-type-name">Mahogany</div>
+          <div class="wood-type-origin">🌎 South America</div>
+          <div class="wood-type-hardness">
+            <i class="fa-solid fa-bolt" style="font-size:0.7rem"></i> Medium-Hard
+          </div>
+          <div class="wood-type-desc">Prized for its deep reddish-brown color and straight grain. The wood of choice for
+            fine furniture and cabinetry.</div>
+        </div>
+        <div class="wood-type-card" data-wood="pine" data-href="products.html?woodType=Pine">
+          <div class="wood-swatch" style="background:linear-gradient(135deg,#D4A843,#F0C870)"></div>
+          <div class="wood-type-name">Pine</div>
+          <div class="wood-type-origin">🌲 Scandinavia, NZ</div>
+          <div class="wood-type-hardness">
+            <i class="fa-solid fa-bolt" style="font-size:0.7rem"></i> Soft
+          </div>
+          <div class="wood-type-desc">Versatile softwood with bright, clean grain. Economical choice for construction
+            framing and DIY projects.</div>
+        </div>
+        <div class="wood-type-card" data-wood="walnut" data-href="products.html?woodType=Walnut">
+          <div class="wood-swatch" style="background:linear-gradient(135deg,#2C1A0E,#5A3520)"></div>
+          <div class="wood-type-name">Walnut</div>
+          <div class="wood-type-origin">🌎 North America</div>
+          <div class="wood-type-hardness">
+            <i class="fa-solid fa-bolt" style="font-size:0.7rem"></i> Hard
+          </div>
+          <div class="wood-type-desc">Rare dark chocolate grain with striking figuring. The pinnacle of luxury furniture
+            making. Ages beautifully.</div>
+        </div>
+        <div class="wood-type-card" data-wood="rosewood" data-href="products.html?woodType=Rosewood">
+          <div class="wood-swatch" style="background:linear-gradient(135deg,#4A1528,#8B3048)"></div>
+          <div class="wood-type-name">Rosewood</div>
+          <div class="wood-type-origin">🌏 India, Brazil</div>
+          <div class="wood-type-hardness">
+            <i class="fa-solid fa-bolt" style="font-size:0.7rem"></i> Very Hard
+          </div>
+          <div class="wood-type-desc">Prized for its deep purple-rose hue and heavenly scent. Used in luxury furniture
+            and musical instruments.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ WHY CHOOSE US ═══════════════ -->
+  <section id="about" class="section" style="background: var(--bg-surface)" aria-label="Why Choose Us">
+    <div class="container">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--space-4xl);align-items:center">
+        <div data-reveal="fade-right">
+          <span class="section-tag">Our Process</span>
+          <h2 class="section-title" style="text-align:left">Why Thousands<br>Choose TimberHaul</h2>
+          <p class="section-subtitle" style="text-align:left;margin:0 0 var(--space-2xl)">From forest to your doorstep —
+            we control every step to guarantee quality you can trust.</p>
+
+          <div class="timeline">
+            <div class="timeline-item">
+              <div class="timeline-dot">
+                <div class="timeline-dot-inner">🌳</div>
+              </div>
+              <div class="timeline-content">
+                <div class="timeline-step">Step 01</div>
+                <h3 class="timeline-title">Premium Materials</h3>
+                <p class="timeline-desc">Sourced directly from certified sustainable forests across 12 countries. Every
+                  species selected for superior grain, density, and durability.</p>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-dot">
+                <div class="timeline-dot-inner">🔬</div>
+              </div>
+              <div class="timeline-content">
+                <div class="timeline-step">Step 02</div>
+                <h3 class="timeline-title">Quality Inspection</h3>
+                <p class="timeline-desc">100% inspection at every stage. Moisture content testing, grading, and
+                  structural integrity checks by certified wood experts.</p>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-dot">
+                <div class="timeline-dot-inner">⚒️</div>
+              </div>
+              <div class="timeline-content">
+                <div class="timeline-step">Step 03</div>
+                <h3 class="timeline-title">Expert Craftsmanship</h3>
+                <p class="timeline-desc">Master craftsmen with 20+ years experience. Traditional joinery techniques
+                  combined with modern precision machining.</p>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-dot">
+                <div class="timeline-dot-inner">📦</div>
+              </div>
+              <div class="timeline-content">
+                <div class="timeline-step">Step 04</div>
+                <h3 class="timeline-title">Safe Delivery</h3>
+                <p class="timeline-desc">Climate-controlled trucks, custom-built packaging, and white-glove delivery
+                  ensure every piece arrives in perfect condition.</p>
+              </div>
+            </div>
+            <div class="timeline-item">
+              <div class="timeline-dot">
+                <div class="timeline-dot-inner">⭐</div>
+              </div>
+              <div class="timeline-content">
+                <div class="timeline-step">Step 05</div>
+                <h3 class="timeline-title">Customer Satisfaction</h3>
+                <p class="timeline-desc">30-day hassle-free returns, lifetime warranty on structural defects, and
+                  dedicated support from wood experts.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right side image/stats -->
+        <div data-reveal="fade-left">
+          <div style="position:relative">
+            <div style="border-radius:var(--radius-2xl);overflow:hidden;height:600px">
+              <img src="https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=800&q=80"
+                alt="TimberHaul workshop" style="width:100%;height:100%;object-fit:cover">
+            </div>
+            <!-- Floating cert badge -->
+            <div class="glass-card"
+              style="position:absolute;bottom:2rem;left:-2rem;padding:1.25rem 1.5rem;transform:none">
+              <div style="display:flex;align-items:center;gap:1rem">
+                <div
+                  style="width:56px;height:56px;background:linear-gradient(135deg,var(--c-walnut),var(--c-teak));border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.5rem;flex-shrink:0">
+                  🏅</div>
+                <div>
+                  <div style="font-weight:700;color:var(--text-primary)">FSC Certified</div>
+                  <div style="font-size:var(--fs-xs);color:var(--text-muted)">Sustainable Forest Management</div>
+                </div>
+              </div>
+            </div>
+            <!-- Rating badge -->
+            <div class="glass-card"
+              style="position:absolute;top:2rem;right:-2rem;padding:1rem 1.25rem;transform:none;text-align:center">
+              <div style="font-size:2rem;font-weight:800;color:var(--c-teak);font-family:var(--font-display)">4.9</div>
+              <div style="color:var(--c-teak);font-size:1rem;letter-spacing:2px;margin:2px 0">★★★★★</div>
+              <div style="font-size:var(--fs-xs);color:var(--text-muted)">12,400 Reviews</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ SERVICES ═══════════════ -->
+  <section id="services" class="section" aria-label="Services">
+    <div class="container">
+      <div class="section-header" data-reveal="fade-up">
+        <span class="section-tag">What We Offer</span>
+        <h2 class="section-title">Our Services</h2>
+        <p class="section-subtitle">Beyond selling timber — we're your complete wood solutions partner</p>
+      </div>
+
+      <div class="services-grid stagger-children">
+        <div class="service-card" data-reveal="fade-up" data-delay="100">
+          <div class="service-icon">🪑</div>
+          <h3 class="service-title">Custom Furniture</h3>
+          <p class="service-desc">Bespoke furniture crafted to your exact specifications. Our master craftsmen bring
+            your vision to life using the finest hardwoods.</p>
+          <a href="#contact" class="service-link">Get a Quote <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+        <div class="service-card" data-reveal="fade-up" data-delay="200">
+          <div class="service-icon">🏠</div>
+          <h3 class="service-title">Interior Design</h3>
+          <p class="service-desc">Transform spaces with wood accents. Our interior design consultants create stunning
+            wooden feature walls, ceilings, and flooring.</p>
+          <a href="#contact" class="service-link">Explore <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+        <div class="service-card" data-reveal="fade-up" data-delay="300">
+          <div class="service-icon">🏗️</div>
+          <h3 class="service-title">Bulk Timber Supply</h3>
+          <p class="service-desc">Volume pricing for contractors and builders. Reliable supply chain with just-in-time
+            delivery to your construction site.</p>
+          <a href="#contact" class="service-link">Get Bulk Quote <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+        <div class="service-card" data-reveal="fade-up" data-delay="100">
+          <div class="service-icon">⚙️</div>
+          <h3 class="service-title">Wood Cutting & Milling</h3>
+          <p class="service-desc">Precision CNC cutting, planing, and milling services. Custom dimensions to the nearest
+            millimeter using state-of-the-art equipment.</p>
+          <a href="#contact" class="service-link">Learn More <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+        <div class="service-card" data-reveal="fade-up" data-delay="200">
+          <div class="service-icon">🔧</div>
+          <h3 class="service-title">Installation</h3>
+          <p class="service-desc">Professional installation by certified carpenters. Flooring, decking, paneling, and
+            furniture assembly — done right the first time.</p>
+          <a href="#contact" class="service-link">Book Installer <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+        <div class="service-card" data-reveal="fade-up" data-delay="300">
+          <div class="service-icon">💬</div>
+          <h3 class="service-title">Expert Consultation</h3>
+          <p class="service-desc">Free 30-minute consultation with certified wood experts. Species selection, project
+            planning, and cost optimization advice.</p>
+          <a href="#contact" class="service-link">Book Free Call <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ PROJECT GALLERY ═══════════════ -->
+  <section id="gallery" class="section" style="background:var(--bg-surface)" aria-label="Project Gallery">
+    <div class="container">
+      <div class="section-header" data-reveal="fade-up">
+        <span class="section-tag">Our Work</span>
+        <h2 class="section-title">Project Gallery</h2>
+        <p class="section-subtitle">Real projects, real craftsmanship — see what's possible with premium timber</p>
+      </div>
+
+      <div class="gallery-masonry" id="gallery-grid" data-reveal="fade-up" data-delay="200">
+        <div class="gallery-item" style="margin-bottom:1.25rem">
+          <img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=800&q=80"
+            alt="Luxury interior with walnut furniture" loading="lazy">
+          <div class="gallery-item-overlay">
+            <span class="gallery-item-label">Luxury Interior — Mumbai</span>
+          </div>
+        </div>
+        <div class="gallery-item">
+          <img src="https://images.unsplash.com/photo-1589939705384-5185137a7f0f?auto=format&fit=crop&w=800&q=80"
+            alt="Outdoor timber deck" loading="lazy">
+          <div class="gallery-item-overlay">
+            <span class="gallery-item-label">Outdoor Teak Deck — Goa</span>
+          </div>
+        </div>
+        <div class="gallery-item">
+          <img src="https://images.unsplash.com/photo-1546484396-fb3f6af5f40e?auto=format&fit=crop&w=800&q=80"
+            alt="Wooden villa exterior" loading="lazy">
+          <div class="gallery-item-overlay">
+            <span class="gallery-item-label">Wooden Villa — Coorg</span>
+          </div>
+        </div>
+        <div class="gallery-item">
+          <img src="https://images.unsplash.com/photo-1512212621149-107ffe5765fd?auto=format&fit=crop&w=800&q=80"
+            alt="Office wooden furniture" loading="lazy">
+          <div class="gallery-item-overlay">
+            <span class="gallery-item-label">Corporate Office — Bengaluru</span>
+          </div>
+        </div>
+        <div class="gallery-item">
+          <img src="https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=800&q=80"
+            alt="Kitchen wooden cabinets" loading="lazy">
+          <div class="gallery-item-overlay">
+            <span class="gallery-item-label">Kitchen Cabinets — Delhi</span>
+          </div>
+        </div>
+        <div class="gallery-item">
+          <img src="https://images.unsplash.com/photo-1506806732259-39c2d0268443?auto=format&fit=crop&w=800&q=80"
+            alt="Modern wooden partition" loading="lazy">
+          <div class="gallery-item-overlay">
+            <span class="gallery-item-label">Modular Interiors — Chennai</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ TESTIMONIALS ═══════════════ -->
+  <section id="reviews" class="section" aria-label="Customer Reviews">
+    <div class="container">
+      <div class="section-header" data-reveal="fade-up">
+        <span class="section-tag">Customer Love</span>
+        <h2 class="section-title">What Our Clients Say</h2>
+        <p class="section-subtitle">Over 12,000 five-star reviews from architects, builders, and homeowners</p>
+      </div>
+
+      <div class="reviews-slider" data-reveal="fade-up" data-delay="200">
+        <div class="reviews-track" id="reviews-track">
+          <!-- Review 1 -->
+          <div class="review-card">
+            <div class="review-profile">
+              <div class="review-avatar-placeholder">RK</div>
+              <div>
+                <div class="review-name">Rajesh Kumar</div>
+                <div class="review-company">Principal Architect, Kumar & Associates</div>
+              </div>
+            </div>
+            <div class="stars">★★★★★</div>
+            <p class="review-text">"TimberHaul has transformed how we source timber for our projects. The quality is
+              consistently exceptional — every batch of teak we've ordered has been perfectly kiln-dried and graded. Our
+              clients can see the difference immediately."</p>
+          </div>
+          <!-- Review 2 -->
+          <div class="review-card">
+            <div class="review-profile">
+              <div class="review-avatar-placeholder">PS</div>
+              <div>
+                <div class="review-name">Priya Sharma</div>
+                <div class="review-company">Interior Designer, Studio Aranya</div>
+              </div>
+            </div>
+            <div class="stars">★★★★★</div>
+            <p class="review-text">"The walnut dining table I ordered exceeded every expectation. The live-edge was
+              perfectly preserved, the finish was flawless, and it arrived a day early. TimberHaul is now my only source
+              for premium wood."</p>
+          </div>
+          <!-- Review 3 -->
+          <div class="review-card">
+            <div class="review-profile">
+              <div class="review-avatar-placeholder">AM</div>
+              <div>
+                <div class="review-name">Arjun Mehta</div>
+                <div class="review-company">Founder, Mehta Constructions</div>
+              </div>
+            </div>
+            <div class="stars">★★★★★</div>
+            <p class="review-text">"For bulk pine timber supply on our housing project, TimberHaul delivered 500+ beams
+              on time, within budget, with certification documentation. Their bulk pricing is unbeatable and quality is
+              grade A."</p>
+          </div>
+          <!-- Review 4 -->
+          <div class="review-card">
+            <div class="review-profile">
+              <div class="review-avatar-placeholder">SN</div>
+              <div>
+                <div class="review-name">Sunita Nair</div>
+                <div class="review-company">Homeowner, Bengaluru</div>
+              </div>
+            </div>
+            <div class="stars">★★★★★</div>
+            <p class="review-text">"I was nervous buying expensive hardwood online, but TimberHaul's photos are 100%
+              accurate and their expert consultation helped me choose the right species. My oak flooring is absolutely
+              stunning!"</p>
+          </div>
+          <!-- Review 5 -->
+          <div class="review-card">
+            <div class="review-profile">
+              <div class="review-avatar-placeholder">VP</div>
+              <div>
+                <div class="review-name">Vikram Patel</div>
+                <div class="review-company">CEO, Patel Furniture Works</div>
+              </div>
+            </div>
+            <div class="stars">★★★★★</div>
+            <p class="review-text">"We've been a TimberHaul supplier partner for 3 years. Their procurement process is
+              professional, payments are always on time, and they truly care about sustainability. A business we're
+              proud to partner with."</p>
+          </div>
+        </div>
+
+        <!-- Slider Controls -->
+        <div class="slider-controls">
+          <button class="slider-btn" id="reviews-prev" aria-label="Previous reviews">
+            <i class="fa-solid fa-chevron-left"></i>
+          </button>
+          <div class="slider-dots" id="reviews-dots">
+            <div class="slider-dot active" data-idx="0"></div>
+            <div class="slider-dot" data-idx="1"></div>
+            <div class="slider-dot" data-idx="2"></div>
+          </div>
+          <button class="slider-btn" id="reviews-next" aria-label="Next reviews">
+            <i class="fa-solid fa-chevron-right"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ BLOG ═══════════════ -->
+  <section id="blog" class="section" style="background:var(--bg-surface)" aria-label="Blog">
+    <div class="container">
+      <div class="section-header" data-reveal="fade-up">
+        <span class="section-tag">Knowledge Hub</span>
+        <h2 class="section-title">From Our Blog</h2>
+        <p class="section-subtitle">Expert guides, industry trends, and pro tips for wood lovers</p>
+      </div>
+
+      <div class="blog-grid" id="blog-grid" data-reveal="fade-up" data-delay="200">
+        <!-- Skeleton loaders -->
+        <div class="blog-card skeleton" style="height:380px"></div>
+        <div class="blog-card skeleton" style="height:380px"></div>
+        <div class="blog-card skeleton" style="height:380px"></div>
+        <div class="blog-card skeleton" style="height:380px"></div>
+      </div>
+
+      <div class="text-center" style="margin-top:var(--space-2xl)">
+        <a href="blog.html" class="btn btn-outline btn-lg">
+          View All Articles <i class="fa-solid fa-arrow-right"></i>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ NEWSLETTER ═══════════════ -->
+  <section id="newsletter" class="newsletter-section" aria-label="Newsletter">
+    <div class="newsletter-bg"></div>
+    <div class="container newsletter-container">
+      <div class="newsletter-content" data-reveal="zoom">
+        <div style="font-size:3rem;margin-bottom:1rem">🌲</div>
+        <h2 class="newsletter-title">Join the TimberHaul Community</h2>
+        <p class="newsletter-subtitle">Get exclusive deals, wood care tips, and first access to new
+          collections.<br>10,000+ subscribers already love our newsletter.</p>
+
+        <form class="newsletter-form" id="newsletter-form" onsubmit="subscribeNewsletter(event)">
+          <div class="newsletter-input-wrap">
+            <i class="fa-regular fa-envelope"></i>
+            <input type="email" id="newsletter-email" class="newsletter-input" placeholder="Enter your email address"
+              required aria-label="Email for newsletter">
+            <button type="submit" class="btn btn-primary ripple-container" id="newsletter-btn">
+              Subscribe <i class="fa-solid fa-paper-plane"></i>
+            </button>
+          </div>
+          <p class="newsletter-hint">🔒 No spam, ever. Unsubscribe anytime.</p>
+        </form>
+
+        <div class="newsletter-benefits">
+          <span>✓ Exclusive Deals</span>
+          <span>✓ New Product Alerts</span>
+          <span>✓ Expert Wood Tips</span>
+          <span>✓ Free Delivery Codes</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ CONTACT ═══════════════ -->
+  <section id="contact" class="section" aria-label="Contact">
+    <div class="container">
+      <div class="section-header" data-reveal="fade-up">
+        <span class="section-tag">Get in Touch</span>
+        <h2 class="section-title">Contact Us</h2>
+        <p class="section-subtitle">Our wood experts are ready to help. Reach out for quotes, consultations, or just a
+          chat about timber!</p>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1.4fr;gap:var(--space-3xl);align-items:start">
+        <!-- Contact Info -->
+        <div data-reveal="fade-right">
+          <div style="display:flex;flex-direction:column;gap:1.5rem;margin-bottom:2rem">
+            <div class="glass-card" style="padding:1.5rem;display:flex;gap:1rem;align-items:center;transform:none">
+              <div
+                style="width:48px;height:48px;background:linear-gradient(135deg,var(--c-walnut),var(--c-teak));border-radius:var(--radius-md);display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0">
+                📍</div>
+              <div>
+                <div style="font-weight:600;color:var(--text-primary);margin-bottom:2px">Head Office</div>
+                <div style="font-size:var(--fs-sm);color:var(--text-muted)">42 Timber Lane, Industrial
+                  Area,<br>Bengaluru — 560 001, Karnataka</div>
+              </div>
+            </div>
+            <div class="glass-card" style="padding:1.5rem;display:flex;gap:1rem;align-items:center;transform:none">
+              <div
+                style="width:48px;height:48px;background:linear-gradient(135deg,var(--c-walnut),var(--c-teak));border-radius:var(--radius-md);display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0">
+                📞</div>
+              <div>
+                <div style="font-weight:600;color:var(--text-primary);margin-bottom:2px">Phone</div>
+                <div style="font-size:var(--fs-sm);color:var(--text-muted)">+91 80 4567 8900<br>Mon–Sat: 9AM–7PM</div>
+              </div>
+            </div>
+            <div class="glass-card" style="padding:1.5rem;display:flex;gap:1rem;align-items:center;transform:none">
+              <div
+                style="width:48px;height:48px;background:linear-gradient(135deg,var(--c-walnut),var(--c-teak));border-radius:var(--radius-md);display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0">
+                ✉️</div>
+              <div>
+                <div style="font-weight:600;color:var(--text-primary);margin-bottom:2px">Email</div>
+                <div style="font-size:var(--fs-sm);color:var(--text-muted)">
+                  hello@timberhaul.com<br>support@timberhaul.com</div>
+              </div>
+            </div>
+          </div>
+          <!-- Map placeholder -->
+          <div
+            style="border-radius:var(--radius-xl);overflow:hidden;height:250px;background:var(--bg-surface-2);border:1px solid var(--border-subtle);display:flex;align-items:center;justify-content:center;color:var(--text-muted);flex-direction:column;gap:0.5rem">
+            <i class="fa-solid fa-map-location-dot" style="font-size:2rem;color:var(--c-teak)"></i>
+            <div style="font-size:var(--fs-sm)">Interactive map loads here</div>
+          </div>
+        </div>
+
+        <!-- Contact Form -->
+        <form class="glass-card" style="padding:2.5rem;transform:none" id="contact-form" onsubmit="submitContact(event)"
+          data-reveal="fade-left">
+          <h3
+            style="font-family:var(--font-display);font-size:var(--fs-2xl);color:var(--text-primary);margin-bottom:1.5rem">
+            Send us a Message</h3>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem">
+            <div class="form-group">
+              <label class="form-label" for="contact-name">Full Name</label>
+              <input type="text" id="contact-name" class="form-input" placeholder="John Doe" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="contact-email">Email</label>
+              <input type="email" id="contact-email" class="form-input" placeholder="john@email.com" required>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem">
+            <div class="form-group">
+              <label class="form-label" for="contact-phone">Phone</label>
+              <input type="tel" id="contact-phone" class="form-input" placeholder="+91 98765 43210">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="contact-subject">Subject</label>
+              <select id="contact-subject" class="form-input form-select">
+                <option value="">Select Topic</option>
+                <option>Product Inquiry</option>
+                <option>Bulk Order Quote</option>
+                <option>Custom Furniture</option>
+                <option>Installation Service</option>
+                <option>Technical Support</option>
+                <option>Other</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group" style="margin-bottom:1.5rem">
+            <label class="form-label" for="contact-message">Message</label>
+            <textarea id="contact-message" class="form-input form-textarea"
+              placeholder="Tell us about your project or query..." required style="min-height:140px"></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary btn-lg w-full ripple-container" id="contact-submit-btn">
+            <i class="fa-solid fa-paper-plane"></i> Send Message
+          </button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ FOOTER ═══════════════ -->
+  <footer class="footer" aria-label="Site footer">
+    <div class="container">
+      <div class="footer-grid">
+        <!-- Brand -->
+        <div>
+          <a href="index.html" class="nav-logo" style="margin-bottom:1.25rem;display:inline-flex">
+            <div class="nav-logo-icon">🪵</div>
+            <span class="nav-logo-text">Timber<span>Haul</span></span>
+          </a>
+          <p class="footer-brand-desc">India's premier destination for premium wood products. Sustainable sourcing,
+            unmatched quality, and nationwide delivery since 2007.</p>
+          <div class="footer-social">
+            <a href="#" class="footer-social-link" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+            <a href="#" class="footer-social-link" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+            <a href="#" class="footer-social-link" aria-label="Twitter"><i class="fa-brands fa-twitter"></i></a>
+            <a href="#" class="footer-social-link" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+            <a href="#" class="footer-social-link" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+          </div>
+        </div>
+
+        <!-- Quick Links -->
+        <div>
+          <h4 class="footer-col-title">Quick Links</h4>
+          <div class="footer-links">
+            <a href="products.html" class="footer-link"><i class="fa-solid fa-chevron-right"
+                style="font-size:0.6rem"></i> All Products</a>
+            <a href="#categories" class="footer-link"><i class="fa-solid fa-chevron-right" style="font-size:0.6rem"></i>
+              Categories</a>
+            <a href="#about" class="footer-link"><i class="fa-solid fa-chevron-right" style="font-size:0.6rem"></i>
+              About Us</a>
+            <a href="#services" class="footer-link"><i class="fa-solid fa-chevron-right" style="font-size:0.6rem"></i>
+              Services</a>
+            <a href="blog.html" class="footer-link"><i class="fa-solid fa-chevron-right" style="font-size:0.6rem"></i>
+              Blog</a>
+            <a href="#contact" class="footer-link"><i class="fa-solid fa-chevron-right" style="font-size:0.6rem"></i>
+              Contact</a>
+          </div>
+        </div>
+
+        <!-- Categories -->
+        <div>
+          <h4 class="footer-col-title">Categories</h4>
+          <div class="footer-links">
+            <a href="products.html?category=solid-wood" class="footer-link"><i class="fa-solid fa-chevron-right"
+                style="font-size:0.6rem"></i> Solid Wood</a>
+            <a href="products.html?category=plywood" class="footer-link"><i class="fa-solid fa-chevron-right"
+                style="font-size:0.6rem"></i> Plywood</a>
+            <a href="products.html?category=doors" class="footer-link"><i class="fa-solid fa-chevron-right"
+                style="font-size:0.6rem"></i> Doors</a>
+            <a href="products.html?category=furniture" class="footer-link"><i class="fa-solid fa-chevron-right"
+                style="font-size:0.6rem"></i> Furniture</a>
+            <a href="products.html?category=wooden-decor" class="footer-link"><i class="fa-solid fa-chevron-right"
+                style="font-size:0.6rem"></i> Wooden Décor</a>
+            <a href="products.html?category=construction-timber" class="footer-link"><i
+                class="fa-solid fa-chevron-right" style="font-size:0.6rem"></i> Construction Timber</a>
+          </div>
+        </div>
+
+        <!-- Newsletter -->
+        <div>
+          <h4 class="footer-col-title">Stay Updated</h4>
+          <p style="font-size:var(--fs-sm);color:var(--text-muted);margin-bottom:var(--space-md);line-height:1.7">Get
+            deals, tips, and new arrivals delivered to your inbox.</p>
+          <form class="footer-newsletter-form" id="footer-newsletter-form">
+            <input type="email" class="footer-newsletter-input" placeholder="Your email" required
+              aria-label="Newsletter email">
+            <button type="submit" class="btn btn-primary btn-sm">→</button>
+          </form>
+          <div style="margin-top:1.25rem">
+            <div style="font-size:var(--fs-xs);color:var(--text-muted);margin-bottom:0.5rem;font-weight:600">
+              CERTIFICATIONS</div>
+            <div style="display:flex;gap:0.5rem;flex-wrap:wrap">
+              <span class="badge badge-gold">FSC®</span>
+              <span class="badge badge-success">PEFC</span>
+              <span class="badge badge-info">ISO 9001</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer Bottom -->
+      <div class="footer-bottom">
+        <div>© 2025 TimberHaul Pvt. Ltd. All rights reserved.</div>
+        <div class="footer-bottom-links">
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Service</a>
+          <a href="custom-furniture.html">Custom Furniture</a>
+          <a href="compare.html">Compare</a>
+          <a href="admin/index.html">Admin</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Quick View Modal -->
+  <div class="modal-overlay" id="quick-view-modal" role="dialog" aria-modal="true" aria-label="Quick View">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 class="modal-title" id="quick-view-title">Product Details</h3>
+        <button class="modal-close" data-action="closeModal" data-args='["quick-view-modal"]' aria-label="Close">✕</button>
+      </div>
+      <div class="modal-body" id="quick-view-body">
+        <div style="display:flex;gap:var(--space-xl)">
+          <div
+            style="flex:1;border-radius:var(--radius-lg);overflow:hidden;height:280px;background:var(--bg-surface-2)">
+            <img id="qv-img" src="" alt="" style="width:100%;height:100%;object-fit:cover">
+          </div>
+          <div style="flex:1;display:flex;flex-direction:column;gap:0.75rem">
+            <div class="badge badge-gold" id="qv-wood-type"></div>
+            <h3 style="font-family:var(--font-display);font-size:var(--fs-xl);color:var(--text-primary)" id="qv-name">
+            </h3>
+            <div class="price-group">
+              <span class="price-current" id="qv-price"></span>
+              <span class="price-original" id="qv-original-price"></span>
+            </div>
+            <div class="rating" id="qv-rating"></div>
+            <p style="font-size:var(--fs-sm);color:var(--text-muted);line-height:1.7" id="qv-desc"></p>
+            <div style="display:flex;gap:0.75rem;margin-top:auto">
+              <button class="btn btn-primary" style="flex:1" id="qv-add-cart">
+                <i class="fa-solid fa-bag-shopping"></i> Add to Cart
+              </button>
+              <button class="btn btn-outline" id="qv-view-full">View Full Details</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Container -->
+  <div id="toast-container" aria-live="polite"></div>
+
+  <!-- Back to Top -->
+  <button id="back-to-top" title="Back to top" aria-label="Back to top">
+    <i class="fa-solid fa-chevron-up"></i>
+  </button>
+
+  <!-- WhatsApp Chat Support Button -->
+  <a href="https://wa.me/9965625663?text=Hi%20TimberHaul,%20I%20have%20a%20question%20about..." target="_blank"
+    rel="noopener noreferrer" id="whatsapp-support-btn"
+    style="position:fixed;bottom:2rem;right:5.5rem;width:56px;height:56px;border-radius:50%;background:#25D366;color:#fff;border:none;cursor:pointer;font-size:1.8rem;box-shadow:var(--shadow-lg);z-index:var(--z-above);transition:all 0.3s var(--ease-spring);display:flex;align-items:center;justify-content:center;text-decoration:none;"
+    aria-label="Chat on WhatsApp" title="Chat with us on WhatsApp">
+    <i class="fa-brands fa-whatsapp"></i>
+  </a>
+
+  <!-- GSAP Animation Library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+  <!-- Scripts - order matters: api → auth → main → animations → home -->
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/animations.js"></script>
+  <script src="js/home.js"></script>
+</body>
+
+</html>

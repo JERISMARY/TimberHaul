@@ -1,0 +1,138 @@
+/* ============================================================
+   TimberHaul — Responsive CSS
+   ============================================================ */
+
+/* ── XL (1200–1440px) ───────────────────────────────────────── */
+@media (max-width: 1200px) {
+  .wood-type-grid { grid-template-columns: repeat(3, 1fr); }
+  .feature-grid   { grid-template-columns: repeat(2, 1fr); }
+  .footer-grid    { grid-template-columns: 1.5fr 1fr 1fr; }
+  .footer-grid > *:last-child { grid-column: span 2; }
+}
+
+/* ── LG (992–1199px) ────────────────────────────────────────── */
+@media (max-width: 992px) {
+  :root { --nav-h: 68px; }
+
+  .container { padding: 0 var(--space-lg); }
+  .section { padding: 5rem 0; }
+
+  .nav-links { display: none; }
+  .nav-hamburger { display: flex; }
+
+  .hero-content { max-width: 100%; }
+
+  .category-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .category-grid .cat-card:first-child { grid-column: span 2; }
+
+  .services-grid { grid-template-columns: repeat(2, 1fr); }
+  .gallery-masonry { columns: 2; }
+
+  .feature-grid { grid-template-columns: repeat(2, 1fr); }
+  .wood-type-grid { grid-template-columns: repeat(3, 1fr); }
+
+  .footer-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-2xl);
+  }
+
+  .review-card { flex: 0 0 calc(50% - 1rem); }
+
+  .stats-grid { grid-template-columns: repeat(2, 1fr); }
+
+  .timeline::before { display: none; }
+  .timeline-item { flex-direction: column; gap: var(--space-md); }
+  .timeline-dot { width: auto; flex-direction: row; align-items: center; gap: var(--space-md); }
+}
+
+/* ── MD (768–991px) ─────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .section { padding: 4rem 0; }
+  .section-title { font-size: clamp(2rem, 6vw, 2.5rem); }
+
+  .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+
+  .category-grid { grid-template-columns: 1fr; }
+  .category-grid .cat-card:first-child { grid-column: span 1; }
+
+  .hero-buttons { flex-direction: column; align-items: flex-start; }
+
+  .services-grid { grid-template-columns: 1fr; }
+  .feature-grid { grid-template-columns: 1fr; }
+
+  .blog-grid { grid-template-columns: 1fr; }
+
+  .wood-type-grid { grid-template-columns: repeat(2, 1fr); }
+
+  .review-card { flex: 0 0 100%; }
+
+  .footer-grid { grid-template-columns: 1fr; gap: var(--space-xl); }
+  .footer-bottom { flex-direction: column; gap: var(--space-md); text-align: center; }
+  .footer-bottom-links { flex-wrap: wrap; justify-content: center; }
+
+  .modal { margin: var(--space-md); max-height: 95vh; }
+  .modal-body { padding: 1.25rem; }
+
+  .stats-grid { grid-template-columns: 1fr 1fr; }
+
+  #toast-container { bottom: 1rem; right: 1rem; left: 1rem; }
+  .toast { max-width: 100%; }
+
+  #back-to-top { bottom: 1.5rem; left: 1rem; }
+}
+
+/* ── SM (480–767px) ─────────────────────────────────────────── */
+@media (max-width: 480px) {
+  :root { --nav-h: 60px; }
+
+  .container { padding: 0 var(--space-md); }
+  .section { padding: 3rem 0; }
+
+  .btn { padding: 0.75rem 1.5rem; }
+  .btn-lg { padding: 0.9rem 2rem; }
+
+  .nav-logo-text { font-size: 1.25rem; }
+  .nav-logo-icon { width: 36px; height: 36px; }
+
+  .hero-heading { font-size: clamp(2.25rem, 9vw, 3rem); }
+  .hero-subtitle { font-size: var(--fs-base); }
+
+  .product-grid { grid-template-columns: 1fr; }
+  .wood-type-grid { grid-template-columns: repeat(2, 1fr); }
+
+  .gallery-masonry { columns: 1; }
+
+  .stats-grid { grid-template-columns: 1fr; }
+  .stat-item { padding: 1.5rem; }
+  .stat-number { font-size: var(--fs-4xl); }
+
+  .section-header { margin-bottom: var(--space-2xl); }
+
+  .cat-card { aspect-ratio: 4/3 !important; }
+  .cat-card-name { font-size: var(--fs-xl); }
+
+  .footer-newsletter-form { flex-direction: column; }
+
+  .modal-header, .modal-footer { padding: 1rem 1.25rem; }
+
+  .search-bar-box { margin: var(--space-md); }
+}
+
+/* ── XS (<360px) ────────────────────────────────────────────── */
+@media (max-width: 360px) {
+  .wood-type-grid { grid-template-columns: 1fr; }
+  .hero-heading { font-size: 2rem; }
+  .nav-actions .nav-action-btn:not(:last-child):not(:nth-last-child(2)) { display: none; }
+}
+
+/* ── Print ──────────────────────────────────────────────────── */
+@media print {
+  #navbar, .nav-mobile, #back-to-top, #toast-container, .cursor-dot, .cursor-ring {
+    display: none !important;
+  }
+  body { background: #fff; color: #000; }
+  .section { padding: 2rem 0; }
+  a[href]::after { content: " (" attr(href) ")"; }
+}

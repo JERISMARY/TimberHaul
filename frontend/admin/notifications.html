@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Notifications — TimberHaul</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="../css/global.css">
+  <link rel="stylesheet" href="../css/animations.css">
+  <link rel="stylesheet" href="../css/products.css">
+</head>
+<body data-sidebar="true">
+  <div class="admin-layout">
+    <main class="admin-main">
+      <div class="admin-topbar">
+        <h1 class="admin-page-title">Notifications</h1>
+        <button class="btn btn-outline btn-sm" onclick="alert('Marked all as read')"><i class="fa-solid fa-check-double"></i> Mark All Read</button>
+      </div>
+      <div class="admin-table-wrap" style="max-width:800px">
+        <table class="admin-table">
+          <tbody id="notif-list"><tr><td style="text-align:center">Loading...</td></tr></tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+  <script src="../js/api.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="js/layout.js"></script>
+  <script src="../js/main.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      AdminLayout.init('nav-notifications');
+      try {
+        const res = await window.api.getNotifications();
+        const notifs = res.data || [];
+        if (notifs.length === 0) {
+          document.getElementById('notif-list').innerHTML = `<tr><td style="text-align:center;padding:3rem;color:var(--text-muted)">No new notifications</td></tr>`;
+          return;
+        }
+        document.getElementById('notif-list').innerHTML = notifs.map(n => `
+          <tr style="background:${n.isRead ? 'transparent' : 'rgba(212,168,67,0.05)'}">
+            <td style="width:40px;text-align:center"><i class="fa-solid ${n.type==='order'?'fa-box':(n.type==='message'?'fa-envelope':'fa-bell')}" style="color:var(--c-teak)"></i></td>
+            <td>
+              <div style="font-weight:600;margin-bottom:0.25rem;color:${n.isRead?'var(--text-muted)':'var(--text-primary)'}">${n.title}</div>
+              <div style="font-size:0.85rem;color:var(--text-muted)">${n.message}</div>
+            </td>
+            <td style="width:120px;color:var(--text-muted);font-size:0.8rem;text-align:right">${new Date(n.createdAt).toLocaleDateString()}</td>
+          </tr>
+        `).join('');
+      } catch (err) {
+        document.getElementById('notif-list').innerHTML = `<tr><td>Error: ${err.message}</td></tr>`;
+      }
+    });
+  </script>
+</body>
+</html>
